@@ -3,4 +3,4 @@ project(DataStructuresAndAlgorithms)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(DataStructuresAndAlgorithms main.cpp)
+add_executable(DataStructuresAndAlgorithms main.cpp MyArray.cpp MyArray.h MyException.cpp MyException.h)
