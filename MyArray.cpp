@@ -3,13 +3,15 @@
 //
 
 #include "MyArray.h"
-#include<iostream>
 
 // 数组构造函数
-MyArray::MyArray(int size) {
-    this->length = 0;
-    this->size = size;
-    this->arr = new int[size];
+MyArray::MyArray(int size) : size(size), length(0), arr(new int[size]) {}
+
+// 数组拷贝构造
+MyArray::MyArray(const MyArray &tmp) : size(tmp.size), length(tmp.length), arr(new int[this->size]) {
+    for (int i = 0; i < tmp.size; i++) {
+        this->arr[i] = tmp.arr[i];
+    }
 }
 
 // 数组析构函数
@@ -20,31 +22,53 @@ MyArray::~MyArray() {
 
 // 数组插入元素
 void MyArray::insert(int index, int element) {
-////    if(index < 0 || index > size){
-////        const char* str = "Array out of range, please resize";
-////        throw str;
-////    } else {
-//////        从后向前循环，将前一位移到后一位
-////        for(int i = size - 1; i >= index; i--){
-////            arr[i+1] = arr[i];
-////        }
-////        arr[index] = element;
-////        this->length++;
-////    }
-//    try {
-//        if (index < 0 || index > size) {
-//            throw std::bad_alloc();
-//        } else {
-////        从后向前循环，将前一位移到后一位
-//            for (int i = size - 1; i >= index; i--) {
-//                arr[i + 1] = arr[i];
-//            }
-//            arr[index] = element;
-//            this->length++;
-//        }
-//    } catch (std::exception &e) {
-//        std::cout<<"Array out of range, please resize"<<std::endl;
-//    }
+//    定义数组超出范围得异常
+    MyException exception = MyException("Array out of range, please resize");
+    try {
+        if (index < 0 || index > size) {
+            throw exception;
+        } else {
+            for (int i = this->size - 1; i >= index; i--) {
+                arr[i + 1] = arr[i];
+            }
+            arr[index] = element;
+            this->length++;
+        }
+    } catch (MyException &e) {
+        std::cout << exception.what() << std::endl;
+    }
+}
+
+// 数组扩容
+void MyArray::resize() {
+    int *arrNew = new int[this->size * 2];
+    for (int i = 0; i < this->size; i++) {
+        arrNew[i] = arr[i];
+    }
+    delete[] arr;
+    arr = arrNew;
+    this->size *= 2;
+}
+
+// 删除数组
+int MyArray::elementDelete(int index) {
+    int deElement = -1;
+    MyException exception = MyException("超出数组范围，无法删除");
+    try {
+        if (index < 0 || index > this->size) {
+            throw exception;
+        } else {
+            deElement = arr[index];
+//            从左到右元素向前移一位
+            for (int i = index; i < this->size; i++) {
+                arr[i] = arr[i + 1];
+            }
+            this->length--;
+        }
+    } catch (std::exception) {
+        std::cout << exception.what() << std::endl;
+    }
+    return deElement;
 }
 
 // 输出数组

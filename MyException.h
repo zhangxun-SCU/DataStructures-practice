@@ -4,13 +4,13 @@
 
 #ifndef DATASTRUCTURESANDALGORITHMS_MYEXCEPTION_H
 #define DATASTRUCTURESANDALGORITHMS_MYEXCEPTION_H
-#include<string>
-
+#include<iostream>
 class MyException {
 private:
-    std::string message_;
+    const char* message_;
 public:
     explicit MyException(const char*);
+    const char* what() const throw();
 };
 
 
