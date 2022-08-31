@@ -7,10 +7,9 @@
 void MyLinkedList::insert(int data, int index) {
     Node insertNode = Node(data);
 //    定义超出链表范围得异常
-    MyException exception = MyException("Linked list out of range!");
     try {
         if (index < 0 || index > size) {
-            throw exception;
+            throw out_of_range_exception;
         }
         if (size == 0) {
 //            空链表初始化
@@ -32,6 +31,18 @@ void MyLinkedList::insert(int data, int index) {
         }
         size++;
     } catch (std::exception) {
-        std::cout << exception.what() << std::endl;
+        std::cout << out_of_range_exception.what() << std::endl;
     }
+}
+
+Node* MyLinkedList::remove(int index) {
+
+}
+
+Node* MyLinkedList::get(int index) {
+
+}
+
+void MyLinkedList::output(){
+
 }

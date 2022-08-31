@@ -23,10 +23,9 @@ MyArray::~MyArray() {
 // 数组插入元素
 void MyArray::insert(int index, int element) {
 //    定义数组超出范围得异常
-    MyException exception = MyException("Array out of range, please resize");
     try {
         if (index < 0 || index > size) {
-            throw exception;
+            throw out_of_range_exception;
         } else {
             for (int i = this->size - 1; i >= index; i--) {
                 arr[i + 1] = arr[i];
@@ -35,7 +34,7 @@ void MyArray::insert(int index, int element) {
             this->length++;
         }
     } catch (MyException &e) {
-        std::cout << exception.what() << std::endl;
+        std::cout << out_of_range_exception.what() << std::endl;
     }
 }
 
@@ -53,10 +52,9 @@ void MyArray::resize() {
 // 删除数组
 int MyArray::elementDelete(int index) {
     int deElement = -1;
-    MyException exception = MyException("超出数组范围，无法删除");
     try {
         if (index < 0 || index > this->size) {
-            throw exception;
+            throw del_exception;
         } else {
             deElement = arr[index];
 //            从左到右元素向前移一位
@@ -66,7 +64,7 @@ int MyArray::elementDelete(int index) {
             this->length--;
         }
     } catch (std::exception) {
-        std::cout << exception.what() << std::endl;
+        std::cout << del_exception.what() << std::endl;
     }
     return deElement;
 }
