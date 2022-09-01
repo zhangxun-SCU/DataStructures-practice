@@ -9,8 +9,8 @@ MyException out_of_list_exception = MyException("Linked list out of range!");
 MyLinkedList::MyLinkedList():size(0), head(nullptr), last(nullptr) {}
 
 void MyLinkedList::insert(int data, int index) {
-    Node tmp = Node(data);
-    Node *insertNode = &tmp;
+//    注意inserNode一定要使用new来创建，不然在函数执行完毕后，节点会被销毁
+    Node *insertNode = new Node(data);
 //    定义超出链表范围得异常
     try {
         if (index < 0 || index > size) {
@@ -73,7 +73,7 @@ Node *MyLinkedList::remove(int index) {
 Node *MyLinkedList::get(int index) {
     Node *temp = head;
     try {
-        if (index < 0 || index > 0) {
+        if (index < 0 || index > size) {
             throw out_of_list_exception;
         }
         for (int i = 0; i < index; i++) {
@@ -86,8 +86,6 @@ Node *MyLinkedList::get(int index) {
 }
 
 void MyLinkedList::output() {
-    std::cout<<head->data<<std::endl;
-    std::cout<<head->next->data<<std::endl;
     Node *temp = head;
     for (int i = 0; i < size; i++) {
         std::cout << temp->data << " ";

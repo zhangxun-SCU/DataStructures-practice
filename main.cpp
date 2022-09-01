@@ -1,7 +1,7 @@
 #include <iostream>
 #include "MyArray.h"
 #include "MyLinkedList.h"
-
+using namespace std;
 int main() {
 /***********************数组测试*************************/
 //    MyArray arr = MyArray(5);
@@ -21,8 +21,15 @@ int main() {
     MyLinkedList myLinkedList = MyLinkedList();
     myLinkedList.insert(5, 0);
     myLinkedList.insert(2, 1);
-//    myLinkedList.insert(0, 2);
+    myLinkedList.insert(0, 2);
     myLinkedList.output();
+    Node*ptr = myLinkedList.remove(1);
+    cout<<"删除的数据是:"<<ptr->data<<endl;
+    myLinkedList.output();
+    Node *ptr1 = myLinkedList.get(1);
+    cout<<"得到的数据是:"<<ptr1->data<<endl;
+    myLinkedList.insert(10, 100);
+    myLinkedList.get(100);
     return 0;
 }
 
