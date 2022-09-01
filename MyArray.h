@@ -8,8 +8,6 @@
 #include<iostream>
 #include "MyException.h"
 
-MyException out_of_range_exception = MyException("Array out of range, please resize");
-MyException del_exception = MyException("Array out of range, can't delete!");
 
 class MyArray {
 private:

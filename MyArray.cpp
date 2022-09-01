@@ -4,6 +4,10 @@
 
 #include "MyArray.h"
 
+MyException out_of_array_exception = MyException("Array out of range, please resize");
+MyException del_exception = MyException("Array out of range, can't delete!");
+
+
 // 数组构造函数
 MyArray::MyArray(int size) : size(size), length(0), arr(new int[size]) {}
 
@@ -25,7 +29,7 @@ void MyArray::insert(int index, int element) {
 //    定义数组超出范围得异常
     try {
         if (index < 0 || index > size) {
-            throw out_of_range_exception;
+            throw out_of_array_exception;
         } else {
             for (int i = this->size - 1; i >= index; i--) {
                 arr[i + 1] = arr[i];
@@ -34,7 +38,7 @@ void MyArray::insert(int index, int element) {
             this->length++;
         }
     } catch (MyException &e) {
-        std::cout << out_of_range_exception.what() << std::endl;
+        std::cout << out_of_array_exception.what() << std::endl;
     }
 }
 
@@ -63,7 +67,7 @@ int MyArray::elementDelete(int index) {
             }
             this->length--;
         }
-    } catch (std::exception) {
+    } catch (MyException& e) {
         std::cout << del_exception.what() << std::endl;
     }
     return deElement;

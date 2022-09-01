@@ -8,14 +8,12 @@
 #include <iostream>
 #include "MyException.h"
 
-MyException out_of_range_exception = MyException("Linked list out of range!");
-
 // 定义链表节点
 struct Node {
     int data;
-    Node *next{};
+    Node *next;
 
-    explicit Node(int data) : data(data) {};
+    explicit Node(int data, Node *ptr = nullptr) : data(data), next(ptr) {};
 };
 
 class MyLinkedList {
@@ -24,10 +22,7 @@ private:
     Node *last;
     int size;
 public:
-    MyLinkedList() = default;
-
-    MyLinkedList(int);
-
+    MyLinkedList();
 //    插入节点
     void insert(int, int);
 
