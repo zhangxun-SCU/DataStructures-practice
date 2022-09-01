@@ -36,6 +36,9 @@ public:
 //    删除
     int elementDelete(int);
 
+//    重载下标运算符
+    int const& operator [] (unsigned int) const;  // 返回常量，但不可被修改
+    int& operator [] (unsigned int);  // 可以修改
 //    输出
     void output();
 };

@@ -73,6 +73,28 @@ int MyArray::elementDelete(int index) {
     return deElement;
 }
 
+const int &MyArray::operator[](unsigned int index) const {
+    try{
+        if(index < 0 || index > size){
+            throw out_of_array_exception;
+        }
+    } catch (MyException&){
+        std::cout<<out_of_array_exception.what()<<std::endl;
+    }
+    return arr[index];
+}
+
+int &MyArray::operator[](unsigned int index) {
+    try{
+        if(index < 0 || index > size){
+            throw out_of_array_exception;
+        }
+    } catch (MyException&){
+        std::cout<<out_of_array_exception.what()<<std::endl;
+    }
+    return arr[index];
+}
+
 // 输出数组
 void MyArray::output() {
     for (int i = 0; i < this->length; i++) {

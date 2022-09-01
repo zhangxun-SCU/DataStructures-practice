@@ -32,6 +32,9 @@ public:
 //    查找
     Node *get(int);
 
+//    重载下标运算符
+    int& operator [] (unsigned int); // 可修改
+
 //    输出链表数据
     void output();
 };

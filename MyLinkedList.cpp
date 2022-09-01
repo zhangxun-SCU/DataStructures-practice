@@ -85,6 +85,20 @@ Node *MyLinkedList::get(int index) {
     return temp;
 }
 
+int &MyLinkedList::operator[](unsigned int index) {
+    Node* temp = nullptr;
+    try{
+        if(index < 0 || index > size){
+            throw out_of_list_exception;
+        }
+        temp = get(index);
+    } catch (MyException&){
+        std::cout<<out_of_list_exception.what()<<std::endl;
+    }
+
+    return temp->data;
+}
+
 void MyLinkedList::output() {
     Node *temp = head;
     for (int i = 0; i < size; i++) {
