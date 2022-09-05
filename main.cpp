@@ -1,7 +1,7 @@
 #include <iostream>
-#include "MyArray.h"
-#include "MyLinkedList.h"
-#include "MyArrayStack.h"
+#include "MyLinkedList.hpp"
+#include "MyArrayStack.hpp"
+#include "MyArray.hpp"
 using namespace std;
 int main() {
 /***********************数组测试*************************/
@@ -37,34 +37,71 @@ int main() {
 
 
 /************************数组栈测试*************************/
-    MyArrayStack stack = MyArrayStack();
-    if(stack.isEmpty()){
-        cout<<"现在有一个空栈"<<endl;
-    }
-    stack.push(10);
-    cout<<"现在第一个元素是："<<stack.peek()<<endl;
-    stack.push(100);
-    cout<<"现在第一个元素是："<<stack.peek()<<endl;
-    int tmp = stack.pop();
-    cout<<"删除的元素是："<<tmp<<endl;
-    cout<<"现在第一个元素是："<<stack.peek()<<endl;
-    cout<<"栈大小"<<stack.size()<<endl;
-    stack.push(1);
-    stack.push(2);
-    stack.push(2);
-    stack.push(3);
-    stack.push(3);
-    stack.push(3);
-    stack.push(4);
-    stack.push(4);
-    stack.push(4);
-    cout<<"栈大小"<<stack.size()<<endl;
-    cout<<"现在栈是否为空呢：";
-    if(stack.isEmpty()){
-        cout<<"yes"<<endl;
-    } else{
-        cout<<"No"<<endl;
-    }
+//    MyArrayStack<int> stack;
+//    if(stack.isEmpty()){
+//        cout<<"现在有一个空栈"<<endl;
+//    }
+//    stack.push(10);
+//    cout<<"现在第一个元素是："<<stack.peek()<<endl;
+//    stack.push(100);
+//    cout<<"现在第一个元素是："<<stack.peek()<<endl;
+//    int tmp = stack.pop();
+//    cout<<"删除的元素是："<<tmp<<endl;
+//    cout<<"现在第一个元素是："<<stack.peek()<<endl;
+//    cout<<"栈大小"<<stack.size()<<endl;
+//    stack.push(1);
+//    stack.push(2);
+//    stack.push(2);
+//    stack.push(3);
+//    stack.push(3);
+//    stack.push(3);
+//    stack.push(4);
+//    stack.push(4);
+//    stack.push(4);
+//    cout<<"栈大小"<<stack.size()<<endl;
+//    cout<<"现在栈是否为空呢：";
+//    if(stack.isEmpty()){
+//        cout<<"yes"<<endl;
+//    } else{
+//        cout<<"No"<<endl;
+//    }
+
+
+/*****************模板数组**************************/
+//    MyArray<int> array(5);
+//    array.insert(0, 1);
+//    array.insert(1, 2);
+//    array.insert(2, 3);
+//    array.output();
+//    int temp = array.elementDelete(2);
+//    cout<<temp<<endl;
+//    array.output();
+//    array.insert(10, 1);
+//    array.resize();
+//    array.resize();
+//    array.insert(10, 1);
+//    array.output();
+
+
+/****************模板链表***********************************/
+//    MyLinkedList<int> myLinkedList;
+//    myLinkedList.insert(5, 0);
+//    myLinkedList.insert(2, 1);
+//    myLinkedList.insert(0, 2);
+//    myLinkedList.output();
+//    Node<int> *ptr = myLinkedList.remove(1);
+//    cout<<"删除的数据是:"<<ptr->data<<endl;
+//    myLinkedList.output();
+//    Node<int> *ptr1 = myLinkedList.get(1);
+//    cout<<"得到的数据是:"<<ptr1->data<<endl;
+//    myLinkedList.insert(10, 100);
+//    myLinkedList.get(100);
+//    cout<<"第一个数是:"<< myLinkedList[0]<<endl;
+//    myLinkedList[0] = 10;
+//    cout<<"第一个数是:"<< myLinkedList[0]<<endl;
+//    cout<<"第一百个数是:"<<myLinkedList[100]<<endl;
+//    myLinkedList.output();
+
     return 0;
 }
 
