@@ -34,7 +34,7 @@ public:
     void resize();
 
 //    删除
-    int elementDelete(int);
+    int elementDelete(int index);
 
 //    重载下标运算符
     int const& operator [] (unsigned int) const;  // 返回常量，但不可被修改
