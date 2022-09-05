@@ -2,6 +2,7 @@
 #include "MyLinkedList.hpp"
 #include "MyArrayStack.hpp"
 #include "MyArray.hpp"
+#include "MyCircularQueue.hpp"
 using namespace std;
 int main() {
 /***********************数组测试*************************/
@@ -102,6 +103,20 @@ int main() {
 //    cout<<"第一百个数是:"<<myLinkedList[100]<<endl;
 //    myLinkedList.output();
 
+
+/********************循环队列******************************/
+//    需要注意的是循环对列的实际长度比capacity小1
+    MyCircularQueue<int> queue(5);
+    queue.enQueue(5);
+    queue.enQueue(4);
+    queue.enQueue(3);
+    queue.enQueue(2);
+    queue.enQueue(1);
+    queue.output();
+    int tmp1 = queue.deQueue();
+    int tmp2 = queue.deQueue();
+    cout<<"tmp1:"<<tmp1<<"  tmp2:"<<tmp2<<endl;
+    queue.output();
     return 0;
 }
 
