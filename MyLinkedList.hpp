@@ -11,7 +11,7 @@ MyException out_of_list_exception = MyException("Linked list out of range!");
 template<class T>
 struct Node {
     T data;
-    Node* next;
+    Node<T>* next;
 
     explicit Node(T data, Node*ptr = nullptr):data(data),next(ptr){};
 };
@@ -21,9 +21,10 @@ class MyLinkedList {
 private:
     Node<T> *head;
     Node<T> *last;
-    int size;
+    int size{};
 public:
     MyLinkedList();
+    MyLinkedList(unsigned int long, T *arr);
     //    插入节点
     void insert(T, int);
 
@@ -43,6 +44,14 @@ public:
 
 template<class T>
 MyLinkedList<T>::MyLinkedList(): size(0), head(nullptr), last(nullptr) {}
+
+template<class T>
+MyLinkedList<T>::MyLinkedList(unsigned int long, T *arr) {
+    this->size = 0;
+    for(int i = 0; i < 10; i++){
+        this->insert(arr[i], i);
+    }
+}
 
 template<class T>
 void MyLinkedList<T>::insert(T data, int index) {
