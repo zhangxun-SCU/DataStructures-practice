@@ -5,12 +5,11 @@
 #ifndef DATASTRUCTURESANDALGORITHMS_MYBINARYTREE_HPP
 #define DATASTRUCTURESANDALGORITHMS_MYBINARYTREE_HPP
 
-#include "MyLinkedList.hpp"
-
+#include <list>
+#include <iostream>
 /*
- * 这里我先使用自己写的MyLinkedList，
- * 也可以直接使用C++模板库里自带的list或forward_list
- * 原理一样，方便我完善理解
+ * 使用C++模板库的list实现
+ * 避免使用自己的list后因为改了一点bug所有代码都需要改的屎山代码出现
  */
 template<class T>
 struct TreeNode {
@@ -26,13 +25,13 @@ template<class T>
 class MyBinaryTree {
 private:
     unsigned int size;
-    MyLinkedList<T> linkedList;
+    std::list<T> List;
     TreeNode<T> *root;
 public:
 //    构造
-    MyBinaryTree(int size, T*arr);
+    MyBinaryTree(int size, std::list<T>);
 //  利用MyLinkedList创建二叉树
-    TreeNode<T> *createBinaryTree(MyLinkedList<T> &inputList);
+    TreeNode<T> *createBinaryTree(std::list<T>);
 //    前序遍历
     void preOrderTraversal(TreeNode<T> *node);
 //    中序遍历
@@ -43,5 +42,28 @@ public:
 
 };
 
+template<class T>
+MyBinaryTree<T>::MyBinaryTree(int size, std::list<T> list): size(size), List(list) {}
 
+template<class T>
+TreeNode<T> *MyBinaryTree<T>::createBinaryTree(std::list<T> list) {
+    TreeNode<T>* node;
+    if(list.empty()){
+        return nullptr;
+    }
+    T data = list.pop_front();
+    if(data!=0){
+        node = new TreeNode<T>(data);
+        node->left = createBinaryTree(list);
+        node->right = createBinaryTree(list);
+    }
+}
+
+//template<class T>
+//void MyBinaryTree<T>::preOrderTraversal(TreeNode<T> *node) {
+//    if(node->data == 0){
+//        return;
+//    }
+//    std::cout<<node->data<<" "<<
+//}
 #endif //DATASTRUCTURESANDALGORITHMS_MYBINARYTREE_HPP

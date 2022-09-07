@@ -1,8 +1,11 @@
+#include <list>
+
 #include <iostream>
 #include "MyLinkedList.hpp"
 #include "MyArrayStack.hpp"
 #include "MyArray.hpp"
 #include "MyCircularQueue.hpp"
+#include "MyBinaryTree.hpp"
 using namespace std;
 int main() {
 /***********************数组测试*************************/
@@ -120,6 +123,9 @@ int main() {
 //    int tmp2 = queue.deQueue();
 //    cout<<"tmp1:"<<tmp1<<"  tmp2:"<<tmp2<<endl;
 //    queue.output();
+
+/********************二叉树*************************************/
+
     return 0;
 }
 
