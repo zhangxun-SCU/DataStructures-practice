@@ -1,11 +1,12 @@
 #include <list>
-
+#include <vector>
 #include <iostream>
 #include "MyLinkedList.hpp"
 #include "MyArrayStack.hpp"
 #include "MyArray.hpp"
 #include "MyCircularQueue.hpp"
 #include "MyBinaryTree.hpp"
+#include "MyBinaryHeap.hpp"
 using namespace std;
 int main() {
 /***********************数组测试*************************/
@@ -126,6 +127,21 @@ int main() {
 
 /********************二叉树*************************************/
 
+
+
+/********************二叉堆：最小堆*************************************/
+    vector<int> a{1, 3, 2, 6, 5, 7, 8, 9, 10};
+    MyBinaryHeap<int> myBinaryHeap(a);
+    myBinaryHeap.output();
+    myBinaryHeap.add(0);
+    myBinaryHeap.output();
+    for(auto i :a){
+        cout<<i<<" ";
+    }
+    cout<<endl;
+    vector<int> b{5, 6, 7, 5, 4, 8, 10, 5, 7, 2, 3, 4};
+    MyBinaryHeap<int> myBinaryHeap1(b);
+    myBinaryHeap1.output();
+
     return 0;
 }
-
