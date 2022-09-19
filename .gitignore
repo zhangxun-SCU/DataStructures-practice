@@ -129,3 +129,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# my
+tutorial/

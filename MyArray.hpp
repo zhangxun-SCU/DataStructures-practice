@@ -4,9 +4,11 @@
 
 #ifndef DATASTRUCTURESANDALGORITHMS_MYARRAY_HPP
 #define DATASTRUCTURESANDALGORITHMS_MYARRAY_HPP
-#include "MyException.h"
-MyException out_of_array_exception = MyException("Array out of range, please resize");
-MyException del_exception = MyException("Array out of range, can't delete!");
+
+#include "iostream"
+
+using namespace std;
+
 template<class T>
 class MyArray {
 private:
@@ -36,15 +38,15 @@ public:
     T elementDelete(int index);
 
 //    重载下标运算符
-    T const& operator [] (unsigned int) const;  // 返回常量，但不可被修改
-    T& operator [] (unsigned int);  // 可以修改
+    T const &operator[](unsigned int) const;  // 返回常量，但不可被修改
+    T &operator[](unsigned int);  // 可以修改
 //    输出
     void output();
 };
 
 
 template<class T>
-MyArray<T>::MyArray(int size): size(size), length(0), arr(new T[size]){}
+MyArray<T>::MyArray(int size): size(size), length(0), arr(new T[size]) {}
 
 template<class T>
 MyArray<T>::MyArray(const MyArray<T> &tmp):size(tmp.size), length(tmp.length), arr(new int[this->size]) {
@@ -61,18 +63,15 @@ MyArray<T>::~MyArray() {
 
 template<class T>
 void MyArray<T>::insert(int index, T element) {
-    try {
-        if (index < 0 || index > size) {
-            throw out_of_array_exception;
-        } else {
-            for (int i = this->size - 1; i >= index; i--) {
-                arr[i + 1] = arr[i];
-            }
-            arr[index] = element;
-            this->length++;
+    if (index < 0 || index > size) {
+        cout << "访问异常" << endl;
+        return;
+    } else {
+        for (int i = this->size - 1; i >= index; i--) {
+            arr[i + 1] = arr[i];
         }
-    } catch (MyException &e) {
-        std::cout << out_of_array_exception.what() << std::endl;
+        arr[index] = element;
+        this->length++;
     }
 }
 
@@ -90,43 +89,33 @@ void MyArray<T>::resize() {
 template<class T>
 T MyArray<T>::elementDelete(int index) {
     T deElement;
-    try {
-        if (index < 0 || index > this->size) {
-            throw del_exception;
-        } else {
-            deElement = arr[index];
-//            从左到右元素向前移一位
-            for (int i = index; i < this->size; i++) {
-                arr[i] = arr[i + 1];
-            }
-            this->length--;
-        }
-    } catch (MyException& e) {
-        std::cout << del_exception.what() << std::endl;
+    if (index < 0 || index > this->size) {
+        cout << "没有这个元素" << endl;
+        return;
     }
+    deElement = arr[index];
+//          从左到右元素向前移一位
+    for (int i = index; i < this->size; i++) {
+        arr[i] = arr[i + 1];
+    }
+    this->length--;
     return deElement;
 }
 
 template<class T>
 const T &MyArray<T>::operator[](unsigned int index) const {
-    try{
-        if(index < 0 || index > size){
-            throw out_of_array_exception;
-        }
-    } catch (MyException&){
-        std::cout<<out_of_array_exception.what()<<std::endl;
+    if (index < 0 || index > size) {
+        cout<<"下标越界"<<endl;
+        return;
     }
     return arr[index];
 }
 
 template<class T>
 T &MyArray<T>::operator[](unsigned int index) {
-    try{
-        if(index < 0 || index > size){
-            throw out_of_array_exception;
-        }
-    } catch (MyException&){
-        std::cout<<out_of_array_exception.what()<<std::endl;
+    if (index < 0 || index > size) {
+        cout<<"下标越界"<<endl;
+        return;
     }
     return arr[index];
 }

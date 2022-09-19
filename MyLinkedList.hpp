@@ -21,7 +21,7 @@ class MyLinkedList {
 private:
     Node<T> *head;
     Node<T> *last;
-    int size{};
+    int size;
 public:
     MyLinkedList();
     MyLinkedList(unsigned int long, T *arr);
@@ -55,7 +55,7 @@ MyLinkedList<T>::MyLinkedList(unsigned int long, T *arr) {
 
 template<class T>
 void MyLinkedList<T>::insert(T data, int index) {
-//    注意inserNode一定要使用new来创建，不然在函数执行完毕后，节点会被销毁
+//    注意insertNode一定要使用new来创建，不然在函数执行完毕后，节点会被销毁
     Node<T> *insertNode = new Node<T>(data);
 //    定义超出链表范围得异常
     try {
