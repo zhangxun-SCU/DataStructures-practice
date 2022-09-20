@@ -91,7 +91,7 @@ T MyArray<T>::elementDelete(int index) {
     T deElement;
     if (index < 0 || index > this->size) {
         cout << "没有这个元素" << endl;
-        return;
+        return deElement;
     }
     deElement = arr[index];
 //          从左到右元素向前移一位
@@ -106,7 +106,7 @@ template<class T>
 const T &MyArray<T>::operator[](unsigned int index) const {
     if (index < 0 || index > size) {
         cout<<"下标越界"<<endl;
-        return;
+        return arr[0];
     }
     return arr[index];
 }
@@ -115,7 +115,7 @@ template<class T>
 T &MyArray<T>::operator[](unsigned int index) {
     if (index < 0 || index > size) {
         cout<<"下标越界"<<endl;
-        return;
+        return arr[0];
     }
     return arr[index];
 }

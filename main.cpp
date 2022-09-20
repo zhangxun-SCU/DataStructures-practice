@@ -7,6 +7,7 @@
 #include "MyCircularQueue.hpp"
 #include "MyBinaryTree.hpp"
 #include "MyBinaryHeap.hpp"
+#include "MyPriorityQueue.hpp"
 using namespace std;
 int main() {
 /***********************数组测试*************************/
@@ -129,19 +130,30 @@ int main() {
 
 
 
-/********************二叉堆：最小堆*************************************/
-    vector<int> a{1, 3, 2, 6, 5, 7, 8, 9, 10};
-    MyBinaryHeap<int> myBinaryHeap(a);
-    myBinaryHeap.output();
-    myBinaryHeap.add(0);
-    myBinaryHeap.output();
-    for(auto i :a){
-        cout<<i<<" ";
-    }
-    cout<<endl;
-    vector<int> b{5, 6, 7, 5, 4, 8, 10, 5, 7, 2, 3, 4};
-    MyBinaryHeap<int> myBinaryHeap1(b);
-    myBinaryHeap1.output();
+/********************二叉堆：最小堆,有限队列*************************************/
+    int a[] = {1, 3, 2, 6, 5, 7, 8, 9, 10};
+    MyPriorityQueue<int> test1(a, 9);
+//    MyBinaryHeap<int> myBinaryHeap(a, 9);
+//    myBinaryHeap.output();
+//    myBinaryHeap.add(0);
+//    myBinaryHeap.output();
+//    for(auto i :a){
+//        cout<<i<<" ";
+//    }
+//    cout<<endl;
+    int b[]{5, 6, 7, 5, 4, 8, 10, 5, 7, 2, 3, 4};
+//    MyBinaryHeap<int> myBinaryHeap1(b, 11);
+//    myBinaryHeap1.output();
+//    myBinaryHeap1.del();
+//    myBinaryHeap1.output();
+//    MyPriorityQueue<int> test2(b, 12);
+    test1.output();
+    cout<<test1.deQueue()<<endl;
+    cout<<test1.deQueue()<<endl;
+    cout<<test1.deQueue()<<endl;
+
+//    test2.output();
+
 
     return 0;
 }

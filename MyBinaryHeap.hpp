@@ -11,12 +11,18 @@
  * - 插入节点：插入在末尾节点再上浮
  * - 删除节点：删除顶点
  * - 构建二叉堆：所有非叶子节点一次下沉
+ *
+ * 二叉堆特点：
+ * - 最大堆的堆顶是最大元素
+ * - 最小堆的对顶是最小元素
  */
 using namespace std;
 template<class ElemType>
 class MyBinaryHeap {
 private:
-    vector<ElemType> array;
+    ElemType *array;
+    int count;
+    int maxSize;
     int childIndex;
     int parentIndex;
     // 保存插入叶子节点的值
@@ -26,23 +32,36 @@ private:
     // 下沉调整
     void downAdjust(int index);
 public:
-    explicit MyBinaryHeap(vector<ElemType> &);
+    MyBinaryHeap();
+    explicit MyBinaryHeap(ElemType *tmp, int size, int maxSize = 1000);
+    ~MyBinaryHeap();
     void add(ElemType element);
-    void del();
+    ElemType del();
     void output();
 };
 
 template<class ElemType>
-MyBinaryHeap<ElemType>::MyBinaryHeap(vector<ElemType> & tmp): array(tmp), childIndex(-1), parentIndex(-1) {
+MyBinaryHeap<ElemType>::MyBinaryHeap():maxSize(1000), count(0), array(new ElemType[maxSize]), childIndex(-1), parentIndex(-1)  {};
+
+template<class ElemType>
+MyBinaryHeap<ElemType>::MyBinaryHeap(ElemType *tmp, int size, int maxSize):count(size), maxSize(maxSize), array(new ElemType[maxSize]), childIndex(-1), parentIndex(-1){
+    for(int i = 0; i < count; i++){
+        array[i] = tmp[i];
+    }
     // 从最后一个非叶子节点开始，依次下沉
-    for(int i = (array.size() - 2) / 2; i >= 0; i--){
+    for(int i = (count - 2) / 2; i >= 0; i--){
         this->downAdjust(i);
     }
 }
 
 template<class ElemType>
+MyBinaryHeap<ElemType>::~MyBinaryHeap() {
+    delete[] array;
+}
+
+template<class ElemType>
 void MyBinaryHeap<ElemType>::upAdjust() {
-    childIndex = array.size() - 1;
+    childIndex = count - 1;
     parentIndex = (childIndex - 1) / 2;
     temp = array[childIndex];
     while(childIndex > 0 && temp < array[parentIndex]){
@@ -55,7 +74,7 @@ void MyBinaryHeap<ElemType>::upAdjust() {
 
 template<class ElemType>
 void MyBinaryHeap<ElemType>::downAdjust(int index) {
-    int length = array.size();
+    int length = count;
     parentIndex = index;
     // temp保存父节点的值，用于最后的赋值
     temp = array[parentIndex];
@@ -69,7 +88,6 @@ void MyBinaryHeap<ElemType>::downAdjust(int index) {
         if(temp <= array[childIndex]){
             break;
         }
-
         array[parentIndex] = array[childIndex];
         parentIndex = childIndex;
         childIndex = childIndex * 2 + 1;
@@ -79,21 +97,26 @@ void MyBinaryHeap<ElemType>::downAdjust(int index) {
 
 template<class ElemType>
 void MyBinaryHeap<ElemType>::add(ElemType element) {
-    array.push_back(element);
+    if(count >= maxSize){
+        cout<<"超出最大范围"<<endl;
+        return;
+    }
+    array[count++] = element;
     this->upAdjust();
 }
 
 template<class ElemType>
-void MyBinaryHeap<ElemType>::del() {
-    array[0] = array[array.size() - 1];
-    array.pop_back();
+ElemType MyBinaryHeap<ElemType>::del() {
+    ElemType tmp = array[0];
+    array[0] = array[count-- -1];
     this->downAdjust(0);
+    return tmp;
 }
 
 template<class ElemType>
 void MyBinaryHeap<ElemType>::output() {
-    for(auto i: array){
-        cout<<i<<" ";
+    for(int i = 0; i < count; i++){
+        cout<<array[i]<<" ";
     }
     cout<<endl;
 }
