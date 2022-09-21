@@ -2,8 +2,8 @@
 // Created by cw on 2022/9/6.
 //
 
-#ifndef DATASTRUCTURESANDALGORITHMS_MYBINARYTREE_HPP
-#define DATASTRUCTURESANDALGORITHMS_MYBINARYTREE_HPP
+#ifndef DATASTRUCTURESANDALGORITHMS_BINARYTREE_HPP
+#define DATASTRUCTURESANDALGORITHMS_BINARYTREE_HPP
 
 #include <list>
 #include <iostream>
@@ -22,14 +22,14 @@ struct TreeNode {
 };
 
 template<class T>
-class MyBinaryTree {
+class BinaryTree {
 private:
     unsigned int size;
     std::list<T> List;
     TreeNode<T> *root;
 public:
 //    构造
-    MyBinaryTree(int size, std::list<T>);
+    BinaryTree(int size, std::list<T>);
 //  利用MyLinkedList创建二叉树
     TreeNode<T> *createBinaryTree(std::list<T>);
 //    前序遍历
@@ -43,10 +43,10 @@ public:
 };
 
 template<class T>
-MyBinaryTree<T>::MyBinaryTree(int size, std::list<T> list): size(size), List(list) {}
+BinaryTree<T>::BinaryTree(int size, std::list<T> list): size(size), List(list) {}
 
 template<class T>
-TreeNode<T> *MyBinaryTree<T>::createBinaryTree(std::list<T> list) {
+TreeNode<T> *BinaryTree<T>::createBinaryTree(std::list<T> list) {
     TreeNode<T>* node;
     if(list.empty()){
         return nullptr;
@@ -60,10 +60,10 @@ TreeNode<T> *MyBinaryTree<T>::createBinaryTree(std::list<T> list) {
 }
 
 //template<class T>
-//void MyBinaryTree<T>::preOrderTraversal(TreeNode<T> *node) {
+//void BinaryTree<T>::preOrderTraversal(TreeNode<T> *node) {
 //    if(node->data == 0){
 //        return;
 //    }
 //    std::cout<<node->data<<" "<<
 //}
-#endif //DATASTRUCTURESANDALGORITHMS_MYBINARYTREE_HPP
+#endif //DATASTRUCTURESANDALGORITHMS_BINARYTREE_HPP

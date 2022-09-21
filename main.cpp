@@ -2,14 +2,14 @@
 #include <vector>
 #include <iostream>
 
-#include "MyLinkedList.hpp"
-#include "MyArrayStack.hpp"
-#include "MyArray.hpp"
-#include "MyCircularQueue.hpp"
-#include "MyBinaryTree.hpp"
-#include "MyBinaryHeap.hpp"
-#include "MyPriorityQueue.hpp"
-#include "MySort.hpp"
+#include "LinkedList.hpp"
+#include "ArrayStack.hpp"
+#include "Array.hpp"
+#include "CircularQueue.hpp"
+#include "BinaryTree.hpp"
+#include "BinaryHeap.hpp"
+#include "PriorityQueue.hpp"
+#include "Sort.hpp"
 #include "Utils.hpp"
 
 using namespace std;
@@ -23,7 +23,7 @@ int main() {
     bool (*ptr)(const int &, const int &);
     int arr[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 0};
     ptr = cmp;
-    MySort::cockTailSort(arr, 10, ptr);
+    Sort::cockTailSort(arr, 10, ptr);
     for (int i: arr) {
         cout << i << " ";
     }

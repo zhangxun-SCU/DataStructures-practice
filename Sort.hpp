@@ -2,13 +2,13 @@
 // Created by cw on 2022/9/20.
 //
 
-#ifndef DATASTRUCTURESANDALGORITHMS_MYSORT_HPP
-#define DATASTRUCTURESANDALGORITHMS_MYSORT_HPP
+#ifndef DATASTRUCTURESANDALGORITHMS_SORT_HPP
+#define DATASTRUCTURESANDALGORITHMS_SORT_HPP
 
 #include "Utils.hpp"
 
 
-class MySort {
+class Sort {
 public:
     // 冒泡排序：
     template<class ElemType>
@@ -20,7 +20,7 @@ public:
 };
 
 template<class ElemType>
-void MySort::bubbleSort(ElemType *array, int size, bool (*compare)(const ElemType &a, const ElemType &b)) {
+void Sort::bubbleSort(ElemType *array, int size, bool (*compare)(const ElemType &a, const ElemType &b)) {
     /**
      * 优化：
      *  1.
@@ -56,7 +56,7 @@ void MySort::bubbleSort(ElemType *array, int size, bool (*compare)(const ElemTyp
 }
 
 template<class ElemType>
-void MySort::cockTailSort(ElemType *array, int size, bool (*compare)(const ElemType &, const ElemType &)) {
+void Sort::cockTailSort(ElemType *array, int size, bool (*compare)(const ElemType &, const ElemType &)) {
     /**
      * 优化：
      *  1.
@@ -103,4 +103,4 @@ void MySort::cockTailSort(ElemType *array, int size, bool (*compare)(const ElemT
 }
 
 
-#endif //DATASTRUCTURESANDALGORITHMS_MYSORT_HPP
+#endif //DATASTRUCTURESANDALGORITHMS_SORT_HPP

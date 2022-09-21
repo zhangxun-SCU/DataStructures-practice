@@ -2,17 +2,17 @@
 // Created by cw on 2022/9/5.
 //
 
-#ifndef DATASTRUCTURESANDALGORITHMS_MYARRAYSTACK_HPP
-#define DATASTRUCTURESANDALGORITHMS_MYARRAYSTACK_HPP
-#include "MyArray.hpp"
+#ifndef DATASTRUCTURESANDALGORITHMS_ARRAYSTACK_HPP
+#define DATASTRUCTURESANDALGORITHMS_ARRAYSTACK_HPP
+#include "Array.hpp"
 
 template<class T>
-class MyArrayStack {
+class ArrayStack {
 private:
-    MyArray<T> stack;
+    Array<T> stack;
     unsigned int pos;
 public:
-    MyArrayStack();
+    ArrayStack();
 //    压栈
     void push(T element);
 //    出栈
@@ -28,35 +28,35 @@ public:
 
 
 template<class T>
-MyArrayStack<T>::MyArrayStack(): stack(MyArray<T>()), pos(0) {}
+ArrayStack<T>::ArrayStack(): stack(Array<T>()), pos(0) {}
 
 template<class T>
-void MyArrayStack<T>::push(T element) {
+void ArrayStack<T>::push(T element) {
     stack.insert(pos, element);
     pos++;
 }
 
 template<class T>
-int MyArrayStack<T>::pop() {
+int ArrayStack<T>::pop() {
     T popElement = stack.elementDelete(pos - 1);
     pos--;
     return popElement;
 }
 
 template<class T>
-int MyArrayStack<T>::peek() {
+int ArrayStack<T>::peek() {
     return stack[pos-1];
 }
 
 template<class T>
-int MyArrayStack<T>::size() const {
+int ArrayStack<T>::size() const {
     return pos;
 }
 
 template<class T>
-int MyArrayStack<T>::isEmpty() const {
+int ArrayStack<T>::isEmpty() const {
     return pos == 0 ? 1 : 0;
 }
 
-#endif //DATASTRUCTURESANDALGORITHMS_MYARRAYSTACK_HPP
+#endif //DATASTRUCTURESANDALGORITHMS_ARRAYSTACK_HPP
 

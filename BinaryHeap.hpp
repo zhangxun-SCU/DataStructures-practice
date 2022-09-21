@@ -2,8 +2,8 @@
 // Created by cw on 2022/9/16.
 //
 
-#ifndef DATASTRUCTURESANDALGORITHMS_MYBINARYHEAP_HPP
-#define DATASTRUCTURESANDALGORITHMS_MYBINARYHEAP_HPP
+#ifndef DATASTRUCTURESANDALGORITHMS_BINARYHEAP_HPP
+#define DATASTRUCTURESANDALGORITHMS_BINARYHEAP_HPP
 #include <vector>
 
 /**
@@ -18,7 +18,7 @@
  */
 using namespace std;
 template<class ElemType>
-class MyBinaryHeap {
+class BinaryHeap {
 private:
     ElemType *array;
     int count;
@@ -32,19 +32,19 @@ private:
     // 下沉调整
     void downAdjust(int index);
 public:
-    MyBinaryHeap();
-    explicit MyBinaryHeap(ElemType *tmp, int size, int maxSize = 1000);
-    ~MyBinaryHeap();
+    BinaryHeap();
+    explicit BinaryHeap(ElemType *tmp, int size, int maxSize = 1000);
+    ~BinaryHeap();
     void add(ElemType element);
     ElemType del();
     void output();
 };
 
 template<class ElemType>
-MyBinaryHeap<ElemType>::MyBinaryHeap():maxSize(1000), count(0), array(new ElemType[maxSize]), childIndex(-1), parentIndex(-1)  {};
+BinaryHeap<ElemType>::BinaryHeap():maxSize(1000), count(0), array(new ElemType[maxSize]), childIndex(-1), parentIndex(-1)  {};
 
 template<class ElemType>
-MyBinaryHeap<ElemType>::MyBinaryHeap(ElemType *tmp, int size, int maxSize):count(size), maxSize(maxSize), array(new ElemType[maxSize]), childIndex(-1), parentIndex(-1){
+BinaryHeap<ElemType>::BinaryHeap(ElemType *tmp, int size, int maxSize):count(size), maxSize(maxSize), array(new ElemType[maxSize]), childIndex(-1), parentIndex(-1){
     for(int i = 0; i < count; i++){
         array[i] = tmp[i];
     }
@@ -55,12 +55,12 @@ MyBinaryHeap<ElemType>::MyBinaryHeap(ElemType *tmp, int size, int maxSize):count
 }
 
 template<class ElemType>
-MyBinaryHeap<ElemType>::~MyBinaryHeap() {
+BinaryHeap<ElemType>::~BinaryHeap() {
     delete[] array;
 }
 
 template<class ElemType>
-void MyBinaryHeap<ElemType>::upAdjust() {
+void BinaryHeap<ElemType>::upAdjust() {
     childIndex = count - 1;
     parentIndex = (childIndex - 1) / 2;
     temp = array[childIndex];
@@ -73,7 +73,7 @@ void MyBinaryHeap<ElemType>::upAdjust() {
 }
 
 template<class ElemType>
-void MyBinaryHeap<ElemType>::downAdjust(int index) {
+void BinaryHeap<ElemType>::downAdjust(int index) {
     int length = count;
     parentIndex = index;
     // temp保存父节点的值，用于最后的赋值
@@ -96,7 +96,7 @@ void MyBinaryHeap<ElemType>::downAdjust(int index) {
 }
 
 template<class ElemType>
-void MyBinaryHeap<ElemType>::add(ElemType element) {
+void BinaryHeap<ElemType>::add(ElemType element) {
     if(count >= maxSize){
         cout<<"超出最大范围"<<endl;
         return;
@@ -106,7 +106,7 @@ void MyBinaryHeap<ElemType>::add(ElemType element) {
 }
 
 template<class ElemType>
-ElemType MyBinaryHeap<ElemType>::del() {
+ElemType BinaryHeap<ElemType>::del() {
     ElemType tmp = array[0];
     array[0] = array[count-- -1];
     this->downAdjust(0);
@@ -114,10 +114,10 @@ ElemType MyBinaryHeap<ElemType>::del() {
 }
 
 template<class ElemType>
-void MyBinaryHeap<ElemType>::output() {
+void BinaryHeap<ElemType>::output() {
     for(int i = 0; i < count; i++){
         cout<<array[i]<<" ";
     }
     cout<<endl;
 }
-#endif //DATASTRUCTURESANDALGORITHMS_MYBINARYHEAP_HPP
+#endif //DATASTRUCTURESANDALGORITHMS_BINARYHEAP_HPP

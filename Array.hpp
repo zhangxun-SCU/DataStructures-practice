@@ -2,15 +2,15 @@
 // Created by cw on 2022/9/5.
 //
 
-#ifndef DATASTRUCTURESANDALGORITHMS_MYARRAY_HPP
-#define DATASTRUCTURESANDALGORITHMS_MYARRAY_HPP
+#ifndef DATASTRUCTURESANDALGORITHMS_ARRAY_HPP
+#define DATASTRUCTURESANDALGORITHMS_ARRAY_HPP
 
 #include "iostream"
 
 using namespace std;
 
 template<class T>
-class MyArray {
+class Array {
 private:
 //    数组容量
     unsigned int size;
@@ -22,11 +22,11 @@ public:
     /*
      * 这里得explit关键字是为了防止发生隐式类型转换，具体原因详细阅读C++primer
      * */
-    explicit MyArray(int size = 10);
+    explicit Array(int size = 10);
 
-    MyArray(const MyArray &);
+    Array(const Array &);
 
-    ~MyArray();
+    ~Array();
 
 //    插入
     void insert(int index, T element);
@@ -46,23 +46,23 @@ public:
 
 
 template<class T>
-MyArray<T>::MyArray(int size): size(size), length(0), arr(new T[size]) {}
+Array<T>::Array(int size): size(size), length(0), arr(new T[size]) {}
 
 template<class T>
-MyArray<T>::MyArray(const MyArray<T> &tmp):size(tmp.size), length(tmp.length), arr(new int[this->size]) {
+Array<T>::Array(const Array<T> &tmp):size(tmp.size), length(tmp.length), arr(new int[this->size]) {
     for (int i = 0; i < tmp.size; i++) {
         this->arr[i] = tmp.arr[i];
     }
 }
 
 template<class T>
-MyArray<T>::~MyArray() {
+Array<T>::~Array() {
     delete[] arr;
     arr = nullptr;
 }
 
 template<class T>
-void MyArray<T>::insert(int index, T element) {
+void Array<T>::insert(int index, T element) {
     if (index < 0 || index > size) {
         cout << "访问异常" << endl;
         return;
@@ -76,7 +76,7 @@ void MyArray<T>::insert(int index, T element) {
 }
 
 template<class T>
-void MyArray<T>::resize() {
+void Array<T>::resize() {
     T *arrNew = new T[this->size * 2];
     for (int i = 0; i < this->size; i++) {
         arrNew[i] = arr[i];
@@ -87,7 +87,7 @@ void MyArray<T>::resize() {
 }
 
 template<class T>
-T MyArray<T>::elementDelete(int index) {
+T Array<T>::elementDelete(int index) {
     T deElement;
     if (index < 0 || index > this->size) {
         cout << "没有这个元素" << endl;
@@ -103,7 +103,7 @@ T MyArray<T>::elementDelete(int index) {
 }
 
 template<class T>
-const T &MyArray<T>::operator[](unsigned int index) const {
+const T &Array<T>::operator[](unsigned int index) const {
     if (index < 0 || index > size) {
         cout<<"下标越界"<<endl;
         return arr[0];
@@ -112,7 +112,7 @@ const T &MyArray<T>::operator[](unsigned int index) const {
 }
 
 template<class T>
-T &MyArray<T>::operator[](unsigned int index) {
+T &Array<T>::operator[](unsigned int index) {
     if (index < 0 || index > size) {
         cout<<"下标越界"<<endl;
         return arr[0];
@@ -121,12 +121,12 @@ T &MyArray<T>::operator[](unsigned int index) {
 }
 
 template<class T>
-void MyArray<T>::output() {
+void Array<T>::output() {
     for (int i = 0; i < this->length; i++) {
         std::cout << arr[i] << " ";
     }
     std::cout << std::endl;
 }
 
-#endif //DATASTRUCTURESANDALGORITHMS_MYARRAY_HPP
+#endif //DATASTRUCTURESANDALGORITHMS_ARRAY_HPP
 
