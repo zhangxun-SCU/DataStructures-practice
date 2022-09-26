@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 
-#include "LinkedList.hpp"
+#include "SingleLinkedList.hpp"
 #include "ArrayStack.hpp"
 #include "Array.hpp"
 #include "CircularQueue.hpp"
@@ -14,20 +14,26 @@
 
 using namespace std;
 
-bool cmp(const int &a, const int &b) {
-    return a > b;
-}
-
 int main() {
-    int b[]{5, 6, 7, 5, 4, 8, 10, 5, 7, 2, 3, 4};
-    bool (*ptr)(const int &, const int &);
-    int arr[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 0};
-    ptr = cmp;
-    Sort::cockTailSort(arr, 10, ptr);
-    for (int i: arr) {
-        cout << i << " ";
-    }
-    cout << endl;
+    SingleLinkedList<int> list;
+    list.insert(1, 0);
+    list.insert(2, 1);
+    list.insert(3,1);
+    list.output();
+
+    list.deleteElem(0);
+    list.output();
+
+    int a;
+    list.removeElem(0, a);
+
+    list.output();
+    cout<<a<<endl;
+    cout<<list.empty()<<endl;
+    list.insert(5, 0);
+    list.clear();
+    cout<<list.empty()<<endl;
+
     return 0;
 }
 

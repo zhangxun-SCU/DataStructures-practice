@@ -17,6 +17,10 @@ public:
     // 鸡尾酒排序：升级冒泡排序
     template<class ElemType>
     static void cockTailSort(ElemType *array, int size, bool (*compare)(const ElemType &a, const ElemType &b));
+
+    // 双边快速排序使用递归
+    template<class ElemType>
+    static void quickSort_double_recursion(ElemType *array, int start, int end, bool (*compare)(const ElemType &a, const ElemType &b));
 };
 
 template<class ElemType>
@@ -71,35 +75,58 @@ void Sort::cockTailSort(ElemType *array, int size, bool (*compare)(const ElemTyp
     int po_sortBorder = size - 1;
     // 逆序遍历无序边界/正序遍历起始点
     int re_sortBorder = 0;
-    for(int i = 0; i < size / 2; i++){
+    for (int i = 0; i < size / 2; i++) {
         // 有序标记
         bool isSorted = true;
         // 奇数轮次，从左到右交换
-        for(int j = re_sortBorder; j < po_sortBorder; j++){
-            if(compare(array[j], array[j+1])){
-                Utils::swap(array[j], array[j+1]);
+        for (int j = re_sortBorder; j < po_sortBorder; j++) {
+            if (compare(array[j], array[j + 1])) {
+                Utils::swap(array[j], array[j + 1]);
                 isSorted = false;
                 lastExchangeIndex = j;
             }
         }
         po_sortBorder = lastExchangeIndex;
-        if(isSorted){
+        if (isSorted) {
             break;
         }
         // 偶数次遍历，在遍历前将isSorted重新标记魏true: 因为有可能上面进行交换之后数组就变得有序了，这由下面这一轮遍历来判断
         isSorted = true;
-        for(int j = po_sortBorder; j > re_sortBorder; j--){
-            if(!compare(array[j], array[j-1])){
-                Utils::swap(array[j], array[j-1]);
+        for (int j = po_sortBorder; j > re_sortBorder; j--) {
+            if (!compare(array[j], array[j - 1])) {
+                Utils::swap(array[j], array[j - 1]);
                 isSorted = false;
                 lastExchangeIndex = j;
             }
         }
         re_sortBorder = lastExchangeIndex;
-        if(isSorted){
+        if (isSorted) {
             break;
         }
     }
+}
+
+
+template<class ElemType>
+void Sort::quickSort_double_recursion(ElemType *array, int start, int end, bool (*compare)(const ElemType &, const ElemType &)) {
+
+}
+
+/**
+ * 找到快速排序中基准元素的位置（双边快速排序——递归）
+ * @tparam ElemType
+ * @param array
+ * @param start
+ * @param end
+ * @return
+ */
+template<class ElemType>
+ElemType* partition_double_recursion(ElemType * array, int start, int end, bool (*compare)(const ElemType &a, const ElemType &b)){
+    // 选取基准元素:此处选第一个位置（可以随机选取最好）
+    ElemType pivot = array[start];
+    int left = start;
+    int right = end;
+
 }
 
 

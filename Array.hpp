@@ -24,7 +24,8 @@ public:
      * */
     explicit Array(int size = 10);
 
-    Array(const Array &);
+//     拷贝构造
+    Array(const Array<T> &);
 
     ~Array();
 
@@ -105,7 +106,7 @@ T Array<T>::elementDelete(int index) {
 template<class T>
 const T &Array<T>::operator[](unsigned int index) const {
     if (index < 0 || index > size) {
-        cout<<"下标越界"<<endl;
+        cout << "下标越界" << endl;
         return arr[0];
     }
     return arr[index];
@@ -114,7 +115,7 @@ const T &Array<T>::operator[](unsigned int index) const {
 template<class T>
 T &Array<T>::operator[](unsigned int index) {
     if (index < 0 || index > size) {
-        cout<<"下标越界"<<endl;
+        cout << "下标越界" << endl;
         return arr[0];
     }
     return arr[index];
