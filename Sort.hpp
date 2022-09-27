@@ -20,7 +20,13 @@ public:
 
     // 双边快速排序使用递归
     template<class ElemType>
-    static void quickSort_double_recursion(ElemType *array, int start, int end, bool (*compare)(const ElemType &a, const ElemType &b));
+    static void
+    quickSort_double_recursion(ElemType *array, int size, bool (*compare)(const ElemType &a, const ElemType &b));
+
+    // 单边循环快速排序递归
+    template<class ElemType>
+    static void
+    quickSort_single_recursion(ElemType *array, int size, bool (*compare)(const ElemType &a, const ElemType &b));
 };
 
 template<class ElemType>
@@ -106,27 +112,64 @@ void Sort::cockTailSort(ElemType *array, int size, bool (*compare)(const ElemTyp
     }
 }
 
-
 template<class ElemType>
-void Sort::quickSort_double_recursion(ElemType *array, int start, int end, bool (*compare)(const ElemType &, const ElemType &)) {
-
+void Sort::quickSort_double_recursion(ElemType *array, int size, bool (*compare)(const ElemType &, const ElemType &)) {
+    // 递归实现双边快速排序
+    // 递归终止条件
+    if (size <= 1) {
+        return;
+    }
+    int left = 0, right = size - 1;
+    // 选取基准元素，这里直接取第一个数，此处是可以优化的点
+    ElemType pivot = array[0];
+    while (left < right) {
+        while (left < right && compare(array[right], pivot)) {
+            right--;
+        }
+        while (left < right && compare(pivot, array[left])) {
+            left++;
+        }
+        if (left < right) {
+            // 找到左边大于pivot和右边小于pivot的元素后交换位置（以从大到小为例）
+            Utils::swap(array[left], array[right]);
+        }
+    }
+    // 退出循环是left = right，即左右指针重合，这个位置就是基准元素pivot应该在的位置，左边的元素小于pivot，右边的元素大于pivot
+    array[left] = pivot;
+    // 递归
+    // 左边一部分，左边元素个数为left
+    quickSort_double_recursion(array, left, compare);
+    // 右边一部分，右边元素其起始点为arr+left+1，即从left后一个元素开始，长度为size - left(基准元素左边的元素) - 1(基准元素)
+    quickSort_double_recursion(array + left + 1, size - left - 1, compare);
 }
 
-/**
- * 找到快速排序中基准元素的位置（双边快速排序——递归）
- * @tparam ElemType
- * @param array
- * @param start
- * @param end
- * @return
- */
 template<class ElemType>
-ElemType* partition_double_recursion(ElemType * array, int start, int end, bool (*compare)(const ElemType &a, const ElemType &b)){
-    // 选取基准元素:此处选第一个位置（可以随机选取最好）
-    ElemType pivot = array[start];
-    int left = start;
-    int right = end;
-
+void Sort::quickSort_single_recursion(ElemType *array, int size, bool (*compare)(const ElemType &, const ElemType &)) {
+    // 递归实现单边循环快速排序
+    // 递归终止条件
+    if (size <= 1) {
+        return;
+    }
+    // 选取基准元素，这里直接取第一个数，此处是可以优化的点
+    ElemType pivot = array[0];
+    // 基准数的起始位置为0,根据上面的优化而改变
+    int pivotIndex = 0;
+    // 使用mark来标记基准元素pivot应该在的位置，初始为0，表示mark左边不该有数字
+    int mark = 0;
+    for (int i = 0; i < size; i++) {
+        if (compare(pivot, array[i])) {
+            // 如果compare为true，说明基准元素左边的元素要多一个，pivotIndex+1，并且将arr[i]与
+            mark++;
+            Utils::swap(array[mark], array[i]);
+        }
+    }
+    // 一次循环结束就找到了基准元素pivot改在的位置，左边的元素小于它，右边的元素大于它，所以交换mark处与pivotIndex处的值
+    Utils::swap(array[mark], array[pivotIndex]);
+    // 递归
+    // 左边部分，与双边循环类似，此时mark就是pivot的位置，左边的元素个数就是mark
+    quickSort_single_recursion(array, mark, compare);
+    // 右边部分
+    quickSort_single_recursion(array + mark + 1, size - mark - 1, compare);
 }
 
 

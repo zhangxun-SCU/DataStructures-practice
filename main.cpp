@@ -15,25 +15,12 @@
 using namespace std;
 
 int main() {
-    SingleLinkedList<int> list;
-    list.insert(1, 0);
-    list.insert(2, 1);
-    list.insert(3,1);
-    list.output();
-
-    list.deleteElem(0);
-    list.output();
-
-    int a;
-    list.removeElem(0, a);
-
-    list.output();
-    cout<<a<<endl;
-    cout<<list.empty()<<endl;
-    list.insert(5, 0);
-    list.clear();
-    cout<<list.empty()<<endl;
-
+    int arr[10] = {1000, 20, 90, 6, 100, 4, 5, 2, 5, 1201};
+    Sort::quickSort_single_recursion(arr, 10, Utils::s2l);
+    for(auto i:arr){
+        cout<< i << " ";
+    }
+    cout<<endl;
     return 0;
 }
 
