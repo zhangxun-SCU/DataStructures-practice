@@ -39,5 +39,40 @@ public:
 
 };
 
-
 #endif //DATASTRUCTURESANDALGORITHMS_CIRLINKLIST_HPP
+
+template<class ElemType>
+CirLinkList<ElemType>::CirLinkList():size(0) {
+    head = new Node<ElemType>;
+    // 循环链表，尾指针指向头元素
+    head->next = head;
+}
+
+template<class ElemType>
+CirLinkList<ElemType>::CirLinkList(const CirLinkList<ElemType> &source) {
+    this->size = source.size;
+    /****/
+
+
+
+}
+
+template<class ElemType>
+CirLinkList<ElemType>::~CirLinkList() {
+    /** delete **/
+    clear();
+    delete head;
+}
+
+template<class ElemType>
+Node<ElemType> *CirLinkList<ElemType>::getElemptr(int index) const {
+    Node<ElemType> *temp = head;
+    for(int i = 0; i < index; i++){
+        temp = temp->next;
+    }
+}
+
+template<class ElemType>
+int CirLinkList<ElemType>::length() {
+
+}

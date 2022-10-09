@@ -4,8 +4,9 @@
 
 #ifndef DATASTRUCTURESANDALGORITHMS_SINGLELINKEDLIST_HPP
 #define DATASTRUCTURESANDALGORITHMS_SINGLELINKEDLIST_HPP
-
+#include <iostream>
 #include "Node.hpp"
+using namespace std;
 
 template<class ElemType>
 class SingleLinkedList {
@@ -14,7 +15,7 @@ private:
 
     int size;
 
-    Node<ElemType> *getElemPtr(int pos) const;  // 返回第pos个结点的指针
+    Node<ElemType> *getElemPtr(int index) const;  // 返回第pos个结点的指针
 public:
     // 无参构造
     SingleLinkedList();
@@ -39,7 +40,7 @@ public:
     // 查找
     bool get(int index, ElemType &e);
     // 重载下标运算符
-    ElemType &operator[](unsigned int size);
+    ElemType &operator[](unsigned int index);
     // 输出链表数据，用于测试
     void output();
 };
@@ -59,6 +60,7 @@ SingleLinkedList<ElemType>::SingleLinkedList(unsigned int size, ElemType *arr):s
 
 template<class ElemType>
 SingleLinkedList<ElemType>::~SingleLinkedList() {
+    clear();
     delete head;
 }
 
@@ -104,7 +106,7 @@ void SingleLinkedList<ElemType>::clear() {
 template<class ElemType>
 bool SingleLinkedList<ElemType>::insert(ElemType data, int index) {
 //    注意insertNode一定要使用new来创建，不然在函数执行完毕后，节点会被销毁
-    Node<ElemType> *insertNode = new Node<ElemType>(data);
+    auto *insertNode = new Node<ElemType>(data);
 //    定义超出链表范围得异常
 
     if (index < 0 || index > size) {
@@ -170,7 +172,8 @@ bool SingleLinkedList<ElemType>::get(int index, ElemType &e) {
 template<class ElemType>
 ElemType &SingleLinkedList<ElemType>::operator[](unsigned int index) {
     if(index > size){
-        return 0;
+        cout<<"out of range!"<<endl;
+        exit(1);
     }
     return getElemPtr(index)->data;
 }
