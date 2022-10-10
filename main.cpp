@@ -11,14 +11,17 @@
 #include "PriorityQueue.hpp"
 #include "Sort.hpp"
 #include "Utils.hpp"
+#include "Calculator.hpp"
 
 using namespace std;
 
 int main() {
-    int arr[10] = {1000, 20, 90, 6, 100, 4, 5, 2, 5, 1201};
-    Sort::quickSort_single_recursion(arr, 10, Utils::s2l);
-    for(auto i:arr){
-        cout<< i << " ";
+
+//    (new Calculator())->Run();
+    int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    Sort::bubbleSort(a, 10, Utils::tmp);
+    for(int i:a){
+        cout<<i<<" ";
     }
     cout<<endl;
     return 0;

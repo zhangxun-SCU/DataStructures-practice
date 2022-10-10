@@ -12,14 +12,14 @@ public:
     static void swap(ElemType &a, ElemType &b);
 
     // 排序的顺序
-    static bool s2l(const int &a, const int &b);
+    template<class ElemType>
+    static bool s2l(const ElemType &a, const ElemType &b);
+    template<class ElemType>
+    static bool l2s(const ElemType &a, const ElemType &b);
 
-    static bool l2s(const int &a, const int &b);
-
-    static bool s2l(const double &a, const double &b);
-
-    static bool l2s(const double &a, const double &b);
-
+    // 阶乘
+    template<class ElemType>
+    static unsigned long long factorial(ElemType n);
 
 };
 
@@ -30,13 +30,17 @@ void Utils::swap(ElemType &a, ElemType &b) {
     b = tmp;
 }
 
-bool Utils::s2l(const int &a, const int &b) { return a > b; }
+template<class ElemType>
+bool Utils::s2l(const ElemType &a, const ElemType &b) { return a > b; }
+template<class ElemType>
+bool Utils::l2s(const ElemType &a, const ElemType &b) { return b > a; }
 
-bool Utils::l2s(const int &a, const int &b) { return b > a; }
-
-bool Utils::s2l(const double &a, const double &b) { return a > b; }
-
-bool Utils::l2s(const double &a, const double &b) { return b > a; }
-
-
+template<class ElemType>
+unsigned long long Utils::factorial(ElemType n) {
+    unsigned long long result = 1;
+    for(int i = 0; i < n; i++){
+        result *= (i+1);
+    }
+    return result;
+}
 #endif //DATASTRUCTURESANDALGORITHMS_UTILS_HPP

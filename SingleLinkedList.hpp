@@ -79,6 +79,8 @@ Node<ElemType> *SingleLinkedList<ElemType>::getElemPtr(int index) const {
     Node<ElemType> *temp = head;
     if (index == -1) {
         return head;
+    } else if(index < -1){
+        exit(-1);
     }
     for (int i = 0; i <= index; i++) {
         temp = temp->next;
@@ -108,11 +110,9 @@ bool SingleLinkedList<ElemType>::insert(ElemType data, int index) {
 //    注意insertNode一定要使用new来创建，不然在函数执行完毕后，节点会被销毁
     auto *insertNode = new Node<ElemType>(data);
 //    定义超出链表范围得异常
-
     if (index < 0 || index > size) {
         return false;
     }
-
 /**
  *  这里以及后面很多地方就体现了引入假设的头结点的简便
  *  不用区分插入位置，不管那个位置都可以直接插入
