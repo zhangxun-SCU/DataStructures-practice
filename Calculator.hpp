@@ -41,18 +41,25 @@ private:
     // 辅助函数
     // 判断字符ch是否为操作符
     static bool isOperator(char ch);
+
     // 操作符转为对映的枚举变量，本质转为在操作符表中的下标
     static Operator optr2rank(char op);
+
     // 判断theta1与theta2的优先级
     char precede(char theta1, char theta2);
+
     // 从操作数栈里退出两个元素
     static void get2oprands(stack<double> &opnd, double &left, double &right);
+
     // 从操作数栈里退出两个元素
     static void get1oprand(stack<double> &opnd, double &left);
+
     // 执行二元运算
     static double calcu(double left, char op, double right);
+
     // 执行一元运算
     static double calcu(char op, double left);
+
 public:
     Calculator() = default;
 
@@ -129,7 +136,7 @@ double Calculator::calcu(double left, char op, double right) {
         case '*' :
             return left * right;
         case '/' :
-            if (0 == right){
+            if (0 == right) {
                 exit(-1);
             }
             return left * 1.0 / right; //注意：如此判浮点数为零可能不安全
@@ -185,11 +192,11 @@ void Calculator::Run() {
                     theta = optr.top();
                     optr.pop();
                     // 判断单目还是双目
-                    if(theta == '!'){
+                    if (theta == '!') {
                         double left;
                         get1oprand(opnd, left);
                         opnd.push(calcu(theta, left));
-                    } else{
+                    } else {
                         double left, right;
                         get2oprands(opnd, left, right);
                         opnd.push(calcu(left, theta, right));
@@ -203,7 +210,7 @@ void Calculator::Run() {
     }
     operand = opnd.top();
     opnd.pop();
-    cout << "表达式的值:" << operand << endl;
+    cout << operand << endl;
 }
 
 #endif //DATASTRUCTURESANDALGORITHMS_CALCULATOR_HPP

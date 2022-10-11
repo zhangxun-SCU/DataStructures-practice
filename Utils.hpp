@@ -19,7 +19,7 @@ public:
 
     // 阶乘
     template<class ElemType>
-    static unsigned long long factorial(ElemType n);
+    static ElemType factorial(ElemType n);
 
 };
 
@@ -36,8 +36,8 @@ template<class ElemType>
 bool Utils::l2s(const ElemType &a, const ElemType &b) { return b > a; }
 
 template<class ElemType>
-unsigned long long Utils::factorial(ElemType n) {
-    unsigned long long result = 1;
+ElemType Utils::factorial(ElemType n) {
+    ElemType result = 1;
     for(int i = 0; i < n; i++){
         result *= (i+1);
     }

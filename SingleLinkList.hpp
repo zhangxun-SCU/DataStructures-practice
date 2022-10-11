@@ -2,14 +2,14 @@
 // Created by cw on 2022/9/5.
 //
 
-#ifndef DATASTRUCTURESANDALGORITHMS_SINGLELINKEDLIST_HPP
-#define DATASTRUCTURESANDALGORITHMS_SINGLELINKEDLIST_HPP
+#ifndef DATASTRUCTURESANDALGORITHMS_SINGLELINKLIST_HPP
+#define DATASTRUCTURESANDALGORITHMS_SINGLELINKLIST_HPP
 #include <iostream>
 #include "Node.hpp"
 using namespace std;
 
 template<class ElemType>
-class SingleLinkedList {
+class SingleLinkList {
 private:
     Node<ElemType> *head;
 
@@ -18,13 +18,13 @@ private:
     Node<ElemType> *getElemPtr(int index) const;  // 返回第pos个结点的指针
 public:
     // 无参构造
-    SingleLinkedList();
+    SingleLinkList();
     // 给定数组构造
-    SingleLinkedList(unsigned int size, ElemType *arr);
+    SingleLinkList(unsigned int size, ElemType *arr);
     // 析构函数
-    ~SingleLinkedList();
+    ~SingleLinkList();
     // 拷贝构造
-    SingleLinkedList(SingleLinkedList<ElemType> &source);
+    SingleLinkList(SingleLinkList<ElemType> &source);
     // 返回链表长度
     int length() const;
     // 判空
@@ -46,12 +46,12 @@ public:
 };
 
 template<class ElemType>
-SingleLinkedList<ElemType>::SingleLinkedList(): size(0), head(nullptr){
+SingleLinkList<ElemType>::SingleLinkList(): size(0), head(nullptr){
     head = new Node<ElemType>(0);
 }
 
 template<class ElemType>
-SingleLinkedList<ElemType>::SingleLinkedList(unsigned int size, ElemType *arr):size(size) {
+SingleLinkList<ElemType>::SingleLinkList(unsigned int size, ElemType *arr):size(size) {
     head = new Node<ElemType>(0);
     for (int i = 0; i < size; i++) {
         this->insert(arr[i], i);
@@ -59,13 +59,13 @@ SingleLinkedList<ElemType>::SingleLinkedList(unsigned int size, ElemType *arr):s
 }
 
 template<class ElemType>
-SingleLinkedList<ElemType>::~SingleLinkedList() {
+SingleLinkList<ElemType>::~SingleLinkList() {
     clear();
     delete head;
 }
 
 template<class ElemType>
-SingleLinkedList<ElemType>::SingleLinkedList(SingleLinkedList<ElemType> &source) {
+SingleLinkList<ElemType>::SingleLinkList(SingleLinkList<ElemType> &source) {
     head = source.head;
     size = source.size;
     Node<ElemType> *ptr = source.head->next;
@@ -75,7 +75,7 @@ SingleLinkedList<ElemType>::SingleLinkedList(SingleLinkedList<ElemType> &source)
 }
 
 template<class ElemType>
-Node<ElemType> *SingleLinkedList<ElemType>::getElemPtr(int index) const {
+Node<ElemType> *SingleLinkList<ElemType>::getElemPtr(int index) const {
     Node<ElemType> *temp = head;
     if (index == -1) {
         return head;
@@ -89,24 +89,24 @@ Node<ElemType> *SingleLinkedList<ElemType>::getElemPtr(int index) const {
 }
 
 template<class ElemType>
-int SingleLinkedList<ElemType>::length() const {
+int SingleLinkList<ElemType>::length() const {
     return size;
 }
 
 template<class ElemType>
-bool SingleLinkedList<ElemType>::empty() const {
+bool SingleLinkList<ElemType>::empty() const {
     return size == 0;
 }
 
 template<class ElemType>
-void SingleLinkedList<ElemType>::clear() {
+void SingleLinkList<ElemType>::clear() {
     while (!empty()) {
         deleteElem(0);
     }
 }
 
 template<class ElemType>
-bool SingleLinkedList<ElemType>::insert(ElemType data, int index) {
+bool SingleLinkList<ElemType>::insert(ElemType data, int index) {
 //    注意insertNode一定要使用new来创建，不然在函数执行完毕后，节点会被销毁
     auto *insertNode = new Node<ElemType>(data);
 //    定义超出链表范围得异常
@@ -126,8 +126,8 @@ bool SingleLinkedList<ElemType>::insert(ElemType data, int index) {
 }
 
 template<class ElemType>
-bool SingleLinkedList<ElemType>::deleteElem(int index) {
-    if (index < 0 || index > size) {
+bool SingleLinkList<ElemType>::deleteElem(int index) {
+    if (index < 0 || index >= size) {
         return false;
     }
 //    找到前面的节点
@@ -141,10 +141,10 @@ bool SingleLinkedList<ElemType>::deleteElem(int index) {
 }
 
 template<class ElemType>
-bool SingleLinkedList<ElemType>::removeElem(int index, ElemType &e) {
+bool SingleLinkList<ElemType>::removeElem(int index, ElemType &e) {
     Node<ElemType> *removeNode = nullptr;
 
-    if (index < 0 || index > size) {
+    if (index < 0 || index >= size) {
         return false;
     }
     Node<ElemType> *prev = getElemPtr(index - 1);
@@ -158,10 +158,8 @@ bool SingleLinkedList<ElemType>::removeElem(int index, ElemType &e) {
 }
 
 template<class ElemType>
-bool SingleLinkedList<ElemType>::get(int index, ElemType &e) {
-    Node<ElemType> *temp = head;
-
-    if (index < 0 || index > size) {
+bool SingleLinkList<ElemType>::get(int index, ElemType &e) {
+    if (index < 0 || index >= size) {
         return false;
     }
     Node<ElemType> *ptr = getElemPtr(index);
@@ -170,7 +168,7 @@ bool SingleLinkedList<ElemType>::get(int index, ElemType &e) {
 }
 
 template<class ElemType>
-ElemType &SingleLinkedList<ElemType>::operator[](unsigned int index) {
+ElemType &SingleLinkList<ElemType>::operator[](unsigned int index) {
     if(index > size){
         cout<<"out of range!"<<endl;
         exit(1);
@@ -179,7 +177,7 @@ ElemType &SingleLinkedList<ElemType>::operator[](unsigned int index) {
 }
 
 template<class ElemType>
-void SingleLinkedList<ElemType>::output() {
+void SingleLinkList<ElemType>::output() {
     Node<ElemType> *temp = head->next;
     for (int i = 0; i < size; i++) {
         std::cout << temp->data << " ";
@@ -188,5 +186,5 @@ void SingleLinkedList<ElemType>::output() {
     std::cout << std::endl;
 }
 
-#endif //DATASTRUCTURESANDALGORITHMS_SINGLELINKEDLIST_HPP
+#endif //DATASTRUCTURESANDALGORITHMS_SINGLELINKLIST_HPP
 
