@@ -33,11 +33,13 @@ public:
 //    清空
     void clear();
 //    插入节点
-    bool insert(ElemType data, int index);
+    bool insert(int index, ElemType data);
 //    遍历执行
     void traverse(void (*visit)(const ElemType &)) const;
 //    获取元素
     bool getElem(int index, ElemType &element);
+//    修改元素
+    bool setElem(int index, ElemType data);
 //    直接删除
     bool deleteElem(int index);
 //    删除并返回
@@ -45,8 +47,6 @@ public:
 //    重载
 
 };
-
-#endif //DATASTRUCTURESANDALGORITHMS_CIRLINKLIST_HPP
 
 template<class ElemType>
 CircleLinkList<ElemType>::CircleLinkList():size(0) {
@@ -76,13 +76,13 @@ CircleLinkList<ElemType>::~CircleLinkList() {
 
 template<class ElemType>
 Node<ElemType> *CircleLinkList<ElemType>::getElemptr(int index) const {
-    Node<ElemType> *tmpPtr = head;
     if(index == -1){
         return head;
-    } else if(index < -1){
+    } else if(index < -1 || index >= size){
         exit(-1);
     }
-    for(int i = 0; i <= index; i++){
+    Node<ElemType> *tmpPtr = head->next;
+    for(int i = 0; i < index; i++){
         tmpPtr = tmpPtr->next;
     }
     return tmpPtr;
@@ -113,7 +113,7 @@ void CircleLinkList<ElemType>::clear() {
 }
 
 template<class ElemType>
-bool CircleLinkList<ElemType>::insert(ElemType data, int index) {
+bool CircleLinkList<ElemType>::insert(int index, ElemType data) {
     // 先构建节点
     auto *insertNode = new Node<ElemType>(data);
     if(index < 0 || index > size){
@@ -137,8 +137,7 @@ bool CircleLinkList<ElemType>::insert(ElemType data, int index) {
 
 template<class ElemType>
 void CircleLinkList<ElemType>::traverse(void (*visit)(const ElemType &)) const {
-    for(int i = 0; i < size; i++){
-        Node<ElemType> *tmpPtr = getElemptr(i - 1);
+    for(Node<Exception> *tmpPtr = head->next; tmpPtr != head; tmpPtr = tmpPtr->next){
         visit(tmpPtr->data);
     }
 }
@@ -150,6 +149,16 @@ bool CircleLinkList<ElemType>::getElem(int index, ElemType &element) {
     }
     Node<ElemType> *tmpPtr = getElemptr(index);
     element = tmpPtr->data;
+    return true;
+}
+
+template<class ElemType>
+bool CircleLinkList<ElemType>::setElem(int index, ElemType data) {
+    if(index < 0 || index >= size){
+        return false;
+    }
+    Node<ElemType> *tmpPtr = getElemptr(index);
+    tmpPtr->data = data;
     return true;
 }
 
@@ -197,3 +206,4 @@ bool CircleLinkList<ElemType>::removeElem(int index, ElemType &element) {
     return true;
 }
 
+#endif //DATASTRUCTURESANDALGORITHMS_CIRLINKLIST_HPP

@@ -76,16 +76,16 @@ SingleLinkList<ElemType>::SingleLinkList(SingleLinkList<ElemType> &source) {
 
 template<class ElemType>
 Node<ElemType> *SingleLinkList<ElemType>::getElemPtr(int index) const {
-    Node<ElemType> *temp = head;
     if (index == -1) {
         return head;
-    } else if(index < -1){
+    } else if(index < -1 || index >= size){
         exit(-1);
     }
-    for (int i = 0; i <= index; i++) {
-        temp = temp->next;
+    Node<ElemType> *tmpPtr = head->next;
+    for (int i = 0; i < index; i++) {
+        tmpPtr = tmpPtr->next;
     }
-    return temp;
+    return tmpPtr;
 }
 
 template<class ElemType>
