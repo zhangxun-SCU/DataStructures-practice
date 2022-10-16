@@ -24,11 +24,11 @@ struct Node {
 template<class ElemType>
 struct NodeDbl{
     ElemType data;
-    Node<ElemType> *prev;
-    Node<ElemType> *next;
+    NodeDbl<ElemType> *prev;
+    NodeDbl<ElemType> *next;
 
     NodeDbl() = default;
-    NodeDbl(ElemType data, Node<ElemType> *prevPtr, NodeDbl<ElemType> *nextPtr): data(data), prev(prevPtr), next(nextPtr) {};
+    explicit NodeDbl(ElemType data, NodeDbl<ElemType> *prevPtr=nullptr, NodeDbl<ElemType> *nextPtr=nullptr): data(data), prev(prevPtr), next(nextPtr) {};
     NodeDbl(NodeDbl<ElemType> &source){
         data = source.data;
         prev = source.prev;

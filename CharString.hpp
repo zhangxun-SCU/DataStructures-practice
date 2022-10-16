@@ -1,0 +1,17 @@
+//
+// Created by cw on 2022/10/16.
+//
+
+#ifndef DATASTRUCTURESANDALGORITHMS_CHARSTRING_HPP
+#define DATASTRUCTURESANDALGORITHMS_CHARSTRING_HPP
+
+
+class CharString {
+private:
+
+public:
+
+};
+
+
+#endif //DATASTRUCTURESANDALGORITHMS_CHARSTRING_HPP

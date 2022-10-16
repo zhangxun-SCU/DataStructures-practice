@@ -17,7 +17,7 @@ private:
     int size;
 
     // 辅助函数：返回index处节点指针
-    Node<ElemType>* getElemptr(int index) const;
+    Node<ElemType>* getElemPtr(int index) const;
 
 public:
 //    构造函数
@@ -60,10 +60,9 @@ CircleLinkList<ElemType>::CircleLinkList():size(0) {
 template<class ElemType>
 CircleLinkList<ElemType>::CircleLinkList(const CircleLinkList<ElemType> &source) {
     size = source.size;
-    Node<ElemType> *tmpPtr = source.head;
-    for(int i = 0; i < size; i++){
-        tmpPtr = tmpPtr->next;
-        this->insert(tmpPtr->data, i);
+    int count = 0;
+    for(Node<ElemType> *tmpPtr = source.head->next; tmpPtr != head; tmpPtr = tmpPtr->next){
+        this->insert(tmpPtr->data, count++);
     }
 }
 
@@ -75,7 +74,7 @@ CircleLinkList<ElemType>::~CircleLinkList() {
 }
 
 template<class ElemType>
-Node<ElemType> *CircleLinkList<ElemType>::getElemptr(int index) const {
+Node<ElemType> *CircleLinkList<ElemType>::getElemPtr(int index) const {
     if(index == -1){
         return head;
     } else if(index < -1 || index >= size){
@@ -127,7 +126,7 @@ bool CircleLinkList<ElemType>::insert(int index, ElemType data) {
         last->next = head;
     } else {
         // 插入在中间，先get前一个节点
-        Node<ElemType> *prevNode = getElemptr(index - 1);
+        Node<ElemType> *prevNode = getElemPtr(index - 1);
         insertNode->next = prevNode->next;
         prevNode->next = insertNode;
     }
@@ -147,7 +146,7 @@ bool CircleLinkList<ElemType>::getElem(int index, ElemType &element) {
     if(index < 0 || index >= size){
         return false;
     }
-    Node<ElemType> *tmpPtr = getElemptr(index);
+    Node<ElemType> *tmpPtr = getElemPtr(index);
     element = tmpPtr->data;
     return true;
 }
@@ -157,7 +156,7 @@ bool CircleLinkList<ElemType>::setElem(int index, ElemType data) {
     if(index < 0 || index >= size){
         return false;
     }
-    Node<ElemType> *tmpPtr = getElemptr(index);
+    Node<ElemType> *tmpPtr = getElemPtr(index);
     tmpPtr->data = data;
     return true;
 }
@@ -169,12 +168,12 @@ bool CircleLinkList<ElemType>::deleteElem(int index) {
     } else if(index == size - 1){
         // 删除尾节点
         Node<ElemType> *tmpPtr = last;
-        Node<ElemType> *prevPtr = getElemptr(index - 1);
+        Node<ElemType> *prevPtr = getElemPtr(index - 1);
         last = prevPtr;
         last->next = head;
         delete tmpPtr;
     } else{
-        Node<ElemType> *prevPtr = getElemptr(index - 1);
+        Node<ElemType> *prevPtr = getElemPtr(index - 1);
         Node<ElemType> *tmpPtr = prevPtr->next;
         prevPtr->next = tmpPtr->next;
         delete tmpPtr;
@@ -190,16 +189,16 @@ bool CircleLinkList<ElemType>::removeElem(int index, ElemType &element) {
     } else if(index == size - 1){
         // 删除尾节点
         Node<ElemType> *tmpPtr = last;
-        Node<ElemType> *prevPtr = getElemptr(index - 1);
+        Node<ElemType> *prevPtr = getElemPtr(index - 1);
         element = tmpPtr->data;
         last = prevPtr;
         last->next = head;
         delete tmpPtr;
     } else{
-        Node<ElemType> *prevPtr = getElemptr(index - 1);
+        Node<ElemType> *prevPtr = getElemPtr(index - 1);
         Node<ElemType> *tmpPtr = prevPtr->next;
-        element = tmpPtr->data;
         prevPtr->next = tmpPtr->next;
+        element = tmpPtr->data;
         delete tmpPtr;
     }
     size--;
