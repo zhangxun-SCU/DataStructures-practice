@@ -32,13 +32,13 @@ public:
     // 清空
     void clear();
     // 插入节点
-    bool insert(ElemType data, int index);
+    bool insert(int index, ElemType data);
     // 直接删除
     bool deleteElem(int index);
     // 删除节点
     bool removeElem(int index, ElemType &e);
     // 查找
-    bool get(int index, ElemType &e);
+    bool getElem(int index, ElemType &e);
     // 重载下标运算符
     ElemType &operator[](unsigned int index);
     // 输出链表数据，用于测试
@@ -106,7 +106,7 @@ void SingleLinkList<ElemType>::clear() {
 }
 
 template<class ElemType>
-bool SingleLinkList<ElemType>::insert(ElemType data, int index) {
+bool SingleLinkList<ElemType>::insert(int index, ElemType data) {
 //    注意insertNode一定要使用new来创建，不然在函数执行完毕后，节点会被销毁
     auto *insertNode = new Node<ElemType>(data);
 //    定义超出链表范围得异常
@@ -158,7 +158,7 @@ bool SingleLinkList<ElemType>::removeElem(int index, ElemType &e) {
 }
 
 template<class ElemType>
-bool SingleLinkList<ElemType>::get(int index, ElemType &e) {
+bool SingleLinkList<ElemType>::getElem(int index, ElemType &e) {
     if (index < 0 || index >= size) {
         return false;
     }

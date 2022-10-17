@@ -14,6 +14,8 @@
     <file url="file://$PROJECT_DIR$/tutorial/中缀表达式求值/rpn.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/tutorial/十大排序算法.c" charset="GBK" />
     <file url="file://$PROJECT_DIR$/tutorial/测试程序/a4_1/main.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/tutorial/测试程序/a4_4/main.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/tutorial/测试程序/a4_5/main.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/tutorial/测试程序/s2_1/alg.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/tutorial/测试程序/s2_1/ass.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/tutorial/测试程序/s2_1/main.cpp" charset="GBK" />
@@ -25,5 +27,6 @@
     <file url="file://$PROJECT_DIR$/tutorial/软件包/软件包/gen_list.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/tutorial/软件包/软件包/ref_gen_node.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/tutorial/软件包/软件包/sq_list.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../../c/practice/12_27字符串函数模拟、二进制算数.c" charset="GBK" />
   </component>
 </project>

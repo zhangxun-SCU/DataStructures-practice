@@ -208,9 +208,13 @@ void Calculator::Run() {
             }
         }
     }
-    operand = opnd.top();
-    opnd.pop();
-    cout << operand << endl;
+    if(opnd.empty()){
+        cout<< 0<<endl;
+    } else{
+        operand = opnd.top();
+        opnd.pop();
+        cout << operand << endl;
+    }
 }
 
 #endif //DATASTRUCTURESANDALGORITHMS_CALCULATOR_HPP

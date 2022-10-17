@@ -15,7 +15,7 @@ private:
     int rear;
     unsigned int capacity;
 public:
-    CircularQueue(unsigned int capacity);
+    explicit CircularQueue(unsigned int capacity);
     ~CircularQueue();
 //    入队
     void enQueue(T element);
