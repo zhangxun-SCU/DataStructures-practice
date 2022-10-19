@@ -6,7 +6,7 @@
 #define DATASTRUCTURESANDALGORITHMS_FILEEDITOR_HPP
 #include <iostream>
 #include <fstream>
-
+#include <cctype>
 #include "DCLinkList.hpp"
 #include "CharString.hpp"
 
@@ -19,7 +19,9 @@ private:
     // 输入、输出文件
     ifstream inFile;
     ofstream outFile;
-    char userCommand;
+    unsigned char userCommand;
+    // 初始化参数
+    void init(char *inFName, char *outFName);
     // 复制函数 yes/no
     bool userSaysYes();
     // n -> 转到下一行
@@ -43,17 +45,57 @@ private:
 
 public:
     // 构造函数
-    FileEditor(char *inFName, char *outFName);
+    FileEditor() = default;
     ~FileEditor() = default;
     // 读取命令
     bool getCommand();
     // 运行命令
     void runCommand();
     // 主程序
-    static void run();
+    void run();
 };
 
-FileEditor::FileEditor(char *inFName, char *outFName) {
+void FileEditor::init(char *inFName, char *outFName) {
+
+}
+
+bool FileEditor::userSaysYes() {
+
+}
+
+bool FileEditor::nextLine() {
+
+}
+
+bool FileEditor::previousLine() {
+
+}
+
+bool FileEditor::gotoLine() {
+
+}
+
+bool FileEditor::insertLine() {
+
+}
+
+bool FileEditor::changeLine() {
+
+}
+
+void FileEditor::readFile() {
+
+}
+
+void FileEditor::writeFile() {
+
+}
+
+void FileEditor::findCharString() {
+
+}
+
+void FileEditor::view() {
 
 }
 
@@ -82,44 +124,98 @@ void FileEditor::runCommand() {
     switch (userCommand) {
         case 'b':
             // begin：转到第一行
+            if(textBuffer.empty()){
+                // 文本缓存空
+                cout<<"warning: 文本缓存空!"<<endl;
+            } else {
+                // 文本缓存非空
+                curLineNum = 0;
+            }
             break;
         case 'c':
             // change：替换当前行
+            if(textBuffer.empty()){
+                // 文本缓存为空
+                cout<<"warning: 文本缓存空!"<<endl;
+            } else if(!changeLine()){
+                cout<<"warning: 操作失败!"<<endl;
+            }
             break;
         case 'd':
             // delete：删除当前行
+            if(textBuffer.empty()){
+                // 文本缓存为空
+                cout<<"warning: 文本缓存空!"<<endl;
+            } else if(!textBuffer.deleteElem(curLineNum)){
+                cout<<"error: 删除失败!"<<endl;
+            }
             break;
         case 'e':
             // end：转到最后一行
+            if(textBuffer.empty()){
+                // 文本缓存为空
+                cout<<"warning: 文本缓存空!"<<endl;
+            } else{
+                curLineNum = textBuffer.length() - 1;
+            }
             break;
         case 'f':
             // find：当当前行开始查找指定文本
+            if(textBuffer.empty()){
+                // 文本缓存为空
+                cout<<"warning: 文本缓存空!"<<endl;
+            } else {
+                findCharString();
+            }
             break;
         case 'g':
             // goto：转到指定行
+            if(!gotoLine()){
+                cout<<"error: 操作失败!";
+            }
             break;
         case '?':
             // 获得帮助
         case 'h':
             // help：获得帮助
+            cout<<"有效命令: b(egin) c(hange)"<<endl
+                <<"d(el) e(nd) f(ind) g(oto) h(elp)"<<endl
+                <<"i(nsert) n(ext) p(rior) q(uit)"<<endl
+                <<"r(ead) v(iew) w(rite)"<<endl;
             break;
         case 'i':
             // insert：插入指定行
+            if(!insertLine()){
+                cout<<"error: 操作失败!"<<endl;
+            }
             break;
         case 'n':
             // next：转到下一行
+            if(!nextLine()){
+                cout<<"error: 操作失败"<<endl;
+            }
             break;
         case 'p':
             // prior：转到前一行
+            if(!previousLine()){
+                cout<<"error: 操作失败"<<endl;
+            }
             break;
         case 'r':
             // read：读入文本
+            readFile();
             break;
         case 'v':
             // view：显示文本
+            view();
             break;
         case 'w':
             // write：写文本缓存到输出文件中
+            if(textBuffer.empty()){
+                cout<<"warning: 文本缓存空"<<endl;
+            } else {
+                writeFile();
+            }
             break;
         default:
             cout<<"输入h或？获得帮助或输入有效指令。"<<endl;
@@ -136,10 +232,10 @@ void FileEditor::run() {
     }
     cout<<"输出文件名(default:file_out.txt)";
     CharString::strcpy(outFName, CharString::read(cin).toCStr());
-    // 定义文本对象
-    FileEditor text(inFName, outFName);
-    while(text.getCommand()){
-        text.runCommand();
+    // 初始化参数：相当于构造函数
+
+    while(getCommand()){
+        runCommand();
     }
     cout<<"退出系统"<<endl;
 }
