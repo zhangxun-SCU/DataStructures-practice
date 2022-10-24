@@ -65,7 +65,7 @@ public:
 
     virtual ~Calculator() = default;
 
-    void Run();
+    void run();
 };
 
 
@@ -156,7 +156,7 @@ double Calculator::calcu(char op, double left) {
     }
 }
 
-void Calculator::Run() {
+void Calculator::run() {
     optr.push('=');
     // 临时字符
     char ch;

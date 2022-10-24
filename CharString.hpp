@@ -21,13 +21,13 @@ public:
     CharString();
 
     // C风格转换的构造函数
-    explicit CharString(const char *source);
+   explicit CharString(const char *source);
 
     // 复制构造
     CharString(const CharString &source);
 
     // 从线性表转换的构造函数
-    CharString(SingleLinkList<char> &source);
+    explicit CharString(SingleLinkList<char> &source);
 
     // 析构
     virtual ~CharString();
@@ -43,11 +43,19 @@ public:
 
     // 重载
     CharString &operator=(const CharString &source);
+
     CharString &operator=(const char *source);
+
     const char &operator[](int i) const;
+
     /**         其他重载            **/
+    friend ostream &operator<<(ostream &output, const CharString &out);
 
+    friend istream &operator>>(istream &input, CharString &in);
 
+    bool operator==(const CharString &another);
+
+    bool operator!=(const CharString &another);
 
     /**          串相关操作               **/
     /*C风格字符串函数*/
@@ -58,6 +66,8 @@ public:
     static int strlen(const char *str);
 
     static char *strcat(char *dest, const char *src);
+
+    static int strcmp(const char *str1, const char *str2);
 
     /*串基本操作*/
     static void copy(CharString &target, const CharString &source);
@@ -81,7 +91,7 @@ public:
     static void write(CharString &s);
 };
 
-CharString::CharString() : strVal(nullptr), size(0) {}
+CharString::CharString() : strVal(new char [0]), size(0) {}
 
 CharString::CharString(const char *source) {
     size = strlen(source);
@@ -142,6 +152,31 @@ const char &CharString::operator[](int i) const {
     return strVal[i];
 }
 
+ostream &operator<<(ostream &output, const CharString &out) {
+    output << out.strVal;
+    return output;
+}
+
+istream &operator>>(istream &input, CharString &in) {
+    input >> in.strVal;
+//    in.size = CharString::strlen(in.strVal);
+    return input;
+}
+
+bool CharString::operator==(const CharString &another) {
+    if(!strcmp(this->strVal, another.strVal)){
+        return true;
+    }
+    return false;
+}
+
+bool CharString::operator!=(const CharString &another) {
+    if(strcmp(this->strVal, another.strVal) != 0){
+        return true;
+    }
+    return false;
+}
+
 char *CharString::strcpy(char *dest, const char *src) {
     char *ret = dest;
     assert(src != nullptr && dest != nullptr);
@@ -161,8 +196,7 @@ char *CharString::strncpy(char *dest, const char *src, int n) {
 int CharString::strlen(const char *str) {
     assert(str != nullptr);
     int len = 0;
-    while (str[len++] != '\0')
-        ;
+    while (str[len++] != '\0');
     return len - 1;
 }
 
@@ -172,6 +206,19 @@ char *CharString::strcat(char *dest, const char *src) {
     ret = ret + strlen(dest);
     while ((*ret++ = *src++) != '\0');
     return dest;
+}
+
+int CharString::strcmp(const char *str1, const char *str2) {
+    assert(nullptr != str1);
+    assert(nullptr != str2);
+    while(*str1 == *str2){
+        if(*str1 == '\0'){
+            return 0;
+        }
+        str1++;
+        str2++;
+    }
+    return *str1 - *str2;
 }
 
 void CharString::copy(CharString &target, const CharString &source) {
@@ -226,7 +273,7 @@ CharString CharString::read(std::istream &input) {
     SingleLinkList<char> temp;
     int size = 0;
     char ch;
-    while (ch = input.peek() != EOF && (ch = input.get()) != '\n') {
+    while ((input.peek() != EOF) && ((ch = input.get()) != '\n')) {
         // peek是从输入流中度一个字符，但是指针不往后移动，即是观测一个字符
         // 将字符插入链表
         temp.insert(size++, ch);
@@ -252,5 +299,6 @@ CharString CharString::read(std::istream &input, char &terminalChar) {
 void CharString::write(CharString &s) {
     cout << s.toCStr() << endl;
 }
+
 
 #endif //DATASTRUCTURESANDALGORITHMS_CHARSTRING_HPP

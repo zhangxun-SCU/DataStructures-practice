@@ -4,12 +4,12 @@
 
 #ifndef DATASTRUCTURESANDALGORITHMS_ARRAYSTACK_HPP
 #define DATASTRUCTURESANDALGORITHMS_ARRAYSTACK_HPP
-#include "Array.hpp"
+#include "SeqList.hpp"
 
 template<class T>
 class ArrayStack {
 private:
-    Array<T> stack;
+    SeqList<T> stack;
     unsigned int pos;
 public:
     ArrayStack();
@@ -28,7 +28,7 @@ public:
 
 
 template<class T>
-ArrayStack<T>::ArrayStack(): stack(Array<T>()), pos(0) {}
+ArrayStack<T>::ArrayStack(): stack(SeqList<T>()), pos(0) {}
 
 template<class T>
 void ArrayStack<T>::push(T element) {
