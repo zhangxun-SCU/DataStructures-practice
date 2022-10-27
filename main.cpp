@@ -6,7 +6,7 @@
 
 
 #include "SingleLinkList.hpp"
-#include "ArrayStack.hpp"
+#include "SeqStack.hpp"
 #include "SeqList.hpp"
 #include "CircularQueue.hpp"
 #include "BinaryTree.hpp"
@@ -25,32 +25,22 @@ using namespace std;
 
 int main() {
 //    (new Calculator())->run();
-    (new FileEditor())->run();
+//    (new FileEditor())->run();
 
-//    const char *url="http://c.biancheng.net/cplus/";
-//    ofstream outFile("url.txt", ios::out);
-//    //向 url.txt 文件中写入字符串
-//    outFile.write(url, 30);
-//    //关闭已打开的文件
-//    outFile.close();
-//    CharString tmp;
-//    CharString::read(cin);
-//    CharString::write(tmp);
-//    cout << tmp<<endl;
-//    CharString tmp1("fafafga");
-//    CharString::write(tmp1);
-
-//    ifstream ifs;
-//    ifs.open("file_in.txt",ios::in);
-//    CharString ss;
-//    ss = CharString::read(ifs);
-//    cout<<ss<<endl;
-//    SingleLinkList<char> strlist;
-//    strlist.insert(0, 'h');
-//    strlist.insert(1, 'i');
-//    CharString tmp(strlist);
-//    cout << tmp <<endl;
-    return 0;
+    SeqStack<int> stack;
+    int tmp = 0;
+    stack.push(0);
+    stack.push(1);
+    stack.push(2);
+    stack.top(tmp);
+    stack.pop();
+    stack.top(tmp);
+    stack.clear();
+    for(int i = 0; i < 1000; i++){
+        stack.push(i);
+    }
+    cout << stack.length()<<endl;
+    stack.push(1001);
 }
 
 

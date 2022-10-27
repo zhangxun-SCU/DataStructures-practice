@@ -79,7 +79,7 @@ void FileEditor::init(char *inFName, char *outFName) {
     readFile();
     this->outFile.open(outFName, ios::out);
     if(inFile.fail() || outFile.fail()){
-        cout<<"文件打开失败"<<endl;
+        cerr<<"文件打开失败"<<endl;
         exit(-1);
     }
 }
@@ -117,7 +117,7 @@ bool FileEditor::previousLine() {
         curLineNum--;
         return true;
     }
-    cout << "已在第一行，无法倒退" << endl;
+    cerr << "已在第一行，无法倒退" << endl;
     return false;
 }
 
@@ -126,7 +126,7 @@ bool FileEditor::gotoLine() {
     cout << " 输入指定行号？";
     cin >> lineNumber;
     if (lineNumber < 1 || lineNumber > textBuffer.length()) {
-        cout << "不存在此行，跳转失败" << endl;
+        cerr << "不存在此行，跳转失败" << endl;
         return false;
     }
     curLineNum = lineNumber;
@@ -182,6 +182,7 @@ void FileEditor::writeFile() {
         textBuffer.removeElem(0, line);
         outFile << line << endl;
     }
+    curLineNum = 0;
     anyChange = false;
 }
 
@@ -201,7 +202,7 @@ void FileEditor::findCharString() {
 
 void FileEditor::view() {
     if (textBuffer.empty()) {
-        cout << "当前缓存区为空" << endl;
+        cerr << "当前缓存区为空" << endl;
     } else {
         CharString line;
         cout << "当前缓存区如下: " << endl;
@@ -243,7 +244,7 @@ void FileEditor::runCommand() {
             // begin：转到第一行
             if (textBuffer.empty()) {
                 // 文本缓存空
-                cout << "warning: 文本缓存空!" << endl;
+                cerr << "warning: 文本缓存空!" << endl;
             } else {
                 // 文本缓存非空
                 curLineNum = 1;
@@ -253,7 +254,7 @@ void FileEditor::runCommand() {
             // change：替换当前行
             if (textBuffer.empty()) {
                 // 文本缓存为空
-                cout << "warning: 文本缓存空!" << endl;
+                cerr << "warning: 文本缓存空!" << endl;
             } else if (!changeLine()) {
                 cout << "warning: 操作失败!" << endl;
             }
@@ -262,18 +263,18 @@ void FileEditor::runCommand() {
             // delete：删除当前行
             if (textBuffer.empty()) {
                 // 文本缓存为空
-                cout << "warning: 文本缓存空!" << endl;
+                cerr << "warning: 文本缓存空!" << endl;
             } else if (curLineNum == textBuffer.length() && textBuffer.deleteElem(curLineNum - 1)) {
                 curLineNum--;
             } else {
-                cout << "warning: 操作失败!" << endl;
+                cerr << "warning: 操作失败!" << endl;
             }
             break;
         case 'e':
             // end：转到最后一行
             if (textBuffer.empty()) {
                 // 文本缓存为空
-                cout << "warning: 文本缓存空!" << endl;
+                cerr << "warning: 文本缓存空!" << endl;
             } else {
                 curLineNum = textBuffer.length();
             }
@@ -282,7 +283,7 @@ void FileEditor::runCommand() {
             // find：当当前行开始查找指定文本
             if (textBuffer.empty()) {
                 // 文本缓存为空
-                cout << "warning: 文本缓存空!" << endl;
+                cerr << "warning: 文本缓存空!" << endl;
             } else {
                 findCharString();
             }
@@ -290,7 +291,7 @@ void FileEditor::runCommand() {
         case 'g':
             // goto：转到指定行
             if (!gotoLine()) {
-                cout << "error: 操作失败!"<<endl;
+                cerr << "error: 操作失败!"<<endl;
             }
             break;
         case '?':
@@ -305,19 +306,19 @@ void FileEditor::runCommand() {
         case 'i':
             // insert：插入指定行
             if (!insertLine()) {
-                cout << "error: 操作失败!" << endl;
+                cerr << "error: 操作失败!" << endl;
             }
             break;
         case 'n':
             // next：转到下一行
             if (!nextLine()) {
-                cout << "error: 操作失败" << endl;
+                cerr << "error: 操作失败" << endl;
             }
             break;
         case 'p':
             // previous：转到前一行
             if (!previousLine()) {
-                cout << "error: 操作失败" << endl;
+                cerr << "error: 操作失败" << endl;
             }
             break;
         case 'r':
@@ -331,7 +332,7 @@ void FileEditor::runCommand() {
         case 'w':
             // write：写文本缓存到输出文件中
             if (textBuffer.empty()) {
-                cout << "warning: 文本缓存空" << endl;
+                cerr << "warning: 文本缓存空" << endl;
             } else {
                 writeFile();
             }
