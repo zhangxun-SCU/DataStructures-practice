@@ -6,7 +6,7 @@
 #define DATASTRUCTURESANDALGORITHMS_TRIPLE_HPP
 
 /**
- * 三元组
+ * 三元组：使用三元组顺序表表表示稀疏矩阵
  * @tparam ElemType
  */
 template<class ElemType>

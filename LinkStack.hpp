@@ -11,6 +11,9 @@
 
 using namespace std;
 
+/*
+ * 链式栈
+ */
 template<class ElemType>
 class LinkStack {
 private:

@@ -9,10 +9,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
-#include "iostream"
-#include "stack"
+#include <iostream>
+#include <stack>
 #include "Utils.hpp"
-
+#include "LinkStack.hpp"
 using namespace std;
 
 #define N_OPTR 9 //运算符总数
@@ -20,10 +20,13 @@ typedef enum {
     ADD, SUB, MUL, DIV, POW, FAC, L_P, R_P, EOE
 } Operator;
 
+/*
+ * 中缀表达式求值
+ */
 class Calculator {
 private:
-    stack<double> opnd;
-    stack<char> optr;
+    LinkStack<double> opnd;
+    LinkStack<char> optr;
     const char pri[N_OPTR][N_OPTR] = { //运算符优先等级 [栈顶] [当前]
             /*              |-------------------- 当 前 运 算 符 --------------------| */
             /*                +          -          *          /          ^          !         (          )          =    */
@@ -49,10 +52,10 @@ private:
     char precede(char theta1, char theta2);
 
     // 从操作数栈里退出两个元素
-    static void get2oprands(stack<double> &opnd, double &left, double &right);
+    static void get2oprands(LinkStack<double> &opnd, double &left, double &right);
 
     // 从操作数栈里退出两个元素
-    static void get1oprand(stack<double> &opnd, double &left);
+    static void get1oprand(LinkStack<double> &opnd, double &left);
 
     // 执行二元运算
     static double calcu(double left, char op, double right);
@@ -115,16 +118,13 @@ char Calculator::precede(char theta1, char theta2) {
     return pri[optr2rank(theta1)][optr2rank(theta2)];
 }
 
-void Calculator::get2oprands(stack<double> &opnd, double &left, double &right) {
-    right = opnd.top();
-    opnd.pop();
-    left = opnd.top();
-    opnd.pop();
+void Calculator::get2oprands(LinkStack<double> &opnd, double &left, double &right) {
+    opnd.pop(right);
+    opnd.pop(left);
 }
 
-void Calculator::get1oprand(stack<double> &opnd, double &left) {
-    left = opnd.top();
-    opnd.pop();
+void Calculator::get1oprand(LinkStack<double> &opnd, double &left) {
+    opnd.pop(left);
 }
 
 double Calculator::calcu(double left, char op, double right) {
@@ -168,7 +168,7 @@ void Calculator::run() {
     char theta;
 
     cin >> ch;
-    while ((optrTop = optr.top(), optrTop != '=') || ch != '=') {
+    while ((optr.top(optrTop), optrTop != '=') || ch != '=') {
         if (!isOperator(ch)) {
             // 不是操作符, 即是一个操作数，将ch放回输入流，读入double数据
             cin.putback(ch);
@@ -184,13 +184,11 @@ void Calculator::run() {
                     cin >> ch;
                     break;
                 case '=':
-                    optrTop = optr.top();
-                    optr.pop();
+                    optr.pop(optrTop);
                     cin >> ch;
                     break;
                 case '>':
-                    theta = optr.top();
-                    optr.pop();
+                    optr.pop(theta);
                     // 判断单目还是双目
                     if (theta == '!') {
                         double left;
@@ -211,8 +209,7 @@ void Calculator::run() {
     if(opnd.empty()){
         cout<< 0<<endl;
     } else{
-        operand = opnd.top();
-        opnd.pop();
+        opnd.top(operand);
         cout << operand << endl;
     }
 }

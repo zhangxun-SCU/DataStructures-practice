@@ -136,7 +136,7 @@ bool CircleLinkList<ElemType>::insert(int index, ElemType data) {
 
 template<class ElemType>
 void CircleLinkList<ElemType>::traverse(void (*visit)(const ElemType &)) const {
-    for(Node<Exception> *tmpPtr = head->next; tmpPtr != head; tmpPtr = tmpPtr->next){
+    for(Node<ElemType> *tmpPtr = head->next; tmpPtr != head; tmpPtr = tmpPtr->next){
         visit(tmpPtr->data);
     }
 }

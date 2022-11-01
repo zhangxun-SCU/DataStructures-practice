@@ -4,69 +4,100 @@
 
 #ifndef DATASTRUCTURESANDALGORITHMS_CIRCULARQUEUE_HPP
 #define DATASTRUCTURESANDALGORITHMS_CIRCULARQUEUE_HPP
-#include "Exception.h"
-Exception queue_is_full("queue is full!");
-Exception queue_is_empty("queue is empty!");
-template<class T>
+#include <iostream>
+
+using namespace std;
+template<class ElemType>
 class CircularQueue {
 private:
-    T* queue;
+    ElemType *elems;
     int front;
     int rear;
     unsigned int capacity;
+    int count;
 public:
-    explicit CircularQueue(unsigned int capacity);
+    explicit CircularQueue(unsigned int capacity = 100);
+    CircularQueue(const CircularQueue<ElemType> &source);
     ~CircularQueue();
-//    入队
-    void enQueue(T element);
-//    出队
-    T deQueue();
-//    输出
-    void output();
+    // 长度
+    int length() const;
+    // 判空
+    bool empty() const;
+    // 清空
+    void clear();
+    // 遍历
+    void traverse(void(*visit)(const ElemType &)) const;
+    // 入队
+    bool enQueue(ElemType &element);
+    // 出队
+     bool deQueue();
+     // 出队并返回
+     bool deQueue(ElemType &element);
+     // 对头
+     bool getHead(ElemType &element);
+     // 重载
+     CircularQueue<ElemType> &operator=(const CircularQueue<ElemType> &source);
 };
 
-template<class T>
-CircularQueue<T>::CircularQueue(unsigned int capacity):capacity(capacity), rear(0), front(0), queue(new T[capacity]) {}
+template<class ElemType>
+CircularQueue<ElemType>::CircularQueue(unsigned int capacity):capacity(capacity), count(0), front(0), rear(0), elems(new ElemType[capacity]){}
 
-template<class T>
-CircularQueue<T>::~CircularQueue() {
-    delete[] queue;
-    queue = nullptr;
-}
-
-template<class T>
-void CircularQueue<T>::enQueue(T element) {
-    try{
-        if((rear + 1)%capacity == front){
-            throw queue_is_full;
-        }
-        queue[rear] = element;
-        rear = (rear + 1) % capacity;
-    } catch(Exception &){
-        std::cout<<queue_is_full.what()<<std::endl;
+template<class ElemType>
+CircularQueue<ElemType>::CircularQueue(const CircularQueue<ElemType> &source) {
+    capacity = source.capacity;
+    elems = new ElemType[capacity];
+    count = source.count;
+    front = source.front, rear = source.rear;
+    for(int temp = front; (temp + 1) % capacity != rear; temp = (temp + 1) % capacity){
+        elems[temp] = source.elems[temp];
     }
 }
 
-template<class T>
-T CircularQueue<T>::deQueue() {
-    try{
-        if(rear == front){
-            throw queue_is_empty;
-        }
-        T deleteElement = queue[front];
-        front = (front + 1) % capacity;
-        return deleteElement;
-    } catch (Exception&) {
-        std::cout<<queue_is_empty.what()<<std::endl;
+template<class ElemType>
+CircularQueue<ElemType>::~CircularQueue() {
+    delete[] elems;
+}
+
+template<class ElemType>
+int CircularQueue<ElemType>::length() const {
+    return count;
+}
+
+template<class ElemType>
+bool CircularQueue<ElemType>::empty() const {
+    return (front + 1) % capacity == rear;
+}
+
+template<class ElemType>
+void CircularQueue<ElemType>::clear() {
+    rear = (front + 1) % capacity;
+}
+
+template<class ElemType>
+void CircularQueue<ElemType>::traverse(void (*visit)(const ElemType &)) const {
+    for(int temp = front; (temp + 1) % capacity != rear; temp = (temp + 1) % capacity){
+        visit(elems[temp]);
     }
 }
 
-template<class T>
-void CircularQueue<T>::output() {
-    for(int i = front; i!=rear; i = (i+1)%capacity){
-        std::cout<<queue[i]<<" ";
-    }
-    std::cout<<std::endl;
+template<class ElemType>
+bool CircularQueue<ElemType>::enQueue(ElemType &element) {
+
+}
+
+template<class ElemType>
+bool CircularQueue<ElemType>::deQueue() {
+
+}
+
+template<class ElemType>
+bool CircularQueue<ElemType>::deQueue(ElemType &element) {
+
+}
+
+template<class ElemType>
+bool CircularQueue<ElemType>::getHead(ElemType &element) {
+
 }
 
 #endif //DATASTRUCTURESANDALGORITHMS_CIRCULARQUEUE_HPP

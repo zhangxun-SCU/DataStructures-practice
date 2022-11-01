@@ -11,6 +11,9 @@
 #include "DCLinkList.hpp"
 #include "CharString.hpp"
 
+/*
+ * 简单文本编辑器
+ */
 class FileEditor {
 private:
     // 文本缓存
@@ -189,13 +192,12 @@ void FileEditor::writeFile() {
 void FileEditor::findCharString() {
     CharString toFind;
     CharString line;
-    cout << "输入你要找的内容";
+    cout << "输入你要找的内容: ";
     cin >> toFind;
     for (int i = 0; i < textBuffer.length(); i++) {
         textBuffer.getElem(i, line);
-        if (line == toFind) {
-
-        }
+        int index = CharString::index(line, toFind);
+        cout << "第" << i + 1 << "行" << "第" << index + 1 << "行.3"<<endl;
     }
 
 }

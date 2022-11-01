@@ -5,7 +5,9 @@
 #ifndef DATASTRUCTURESANDALGORITHMS_NODE_HPP
 #define DATASTRUCTURESANDALGORITHMS_NODE_HPP
 
-
+/*
+ * 单链表，单循环链表节点
+ */
 template<class ElemType>
 struct Node {
     ElemType data;
@@ -21,6 +23,9 @@ struct Node {
     }
 };
 
+/*
+ * 双链表节点
+ */
 template<class ElemType>
 struct NodeDbl{
     ElemType data;
@@ -35,5 +40,18 @@ struct NodeDbl{
         next = source.next;
     }
     // 有参构造
+};
+
+/*
+ * 二叉树节点TreeNode
+ */
+template<class T>
+struct TreeNode {
+    T data;
+    TreeNode<T> *left;
+    TreeNode<T> *right;
+
+    explicit TreeNode(T data, TreeNode *ptrL = nullptr, TreeNode *ptrR = nullptr) : data(data), left(ptrL),
+                                                                                    right(ptrR) {};
 };
 #endif //DATASTRUCTURESANDALGORITHMS_NODE_HPP

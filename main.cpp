@@ -19,6 +19,7 @@
 #include "CharString.hpp"
 #include "FileEditor.hpp"
 #include "Calculator.hpp"
+#include "RefGenList.hpp"
 
 
 using namespace std;
@@ -30,11 +31,15 @@ void visit(const int &element){
 int main() {
 //    (new Calculator())->run();
 //    (new FileEditor())->run();
-    SeqStack<int> stack;
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
-    stack.traverse(visit);
+    RefGenList<int> tmp;
+    tmp.input();
+    tmp.output();
+    cout<<tmp.depth()<<endl;
+    RefGenList<int> tmp2;
+    tmp2.push(tmp);
+    tmp2.output();
+    return 0;
+
 }
 
 
