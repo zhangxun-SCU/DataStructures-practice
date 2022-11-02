@@ -48,7 +48,7 @@ CircularQueue<ElemType>::CircularQueue(const CircularQueue<ElemType> &source) {
     elems = new ElemType[capacity];
     count = source.count;
     front = source.front, rear = source.rear;
-    for(int temp = front; (temp + 1) % capacity != rear; temp = (temp + 1) % capacity){
+    for(int temp = front; temp != rear; temp = (temp + 1) % capacity){
         elems[temp] = source.elems[temp];
     }
 }
@@ -75,29 +75,64 @@ void CircularQueue<ElemType>::clear() {
 
 template<class ElemType>
 void CircularQueue<ElemType>::traverse(void (*visit)(const ElemType &)) const {
-    for(int temp = front; (temp + 1) % capacity != rear; temp = (temp + 1) % capacity){
+    for(int temp = front; temp != rear; temp = (temp + 1) % capacity){
         visit(elems[temp]);
     }
 }
 
 template<class ElemType>
 bool CircularQueue<ElemType>::enQueue(ElemType &element) {
-
+    if((rear + 1) % capacity == front){
+        cerr << "warning: 队列已满"<<endl;
+        return false;
+    }
+    elems[rear] = element;
+    rear = (rear + 1) % capacity;
+    return true;
 }
 
 template<class ElemType>
 bool CircularQueue<ElemType>::deQueue() {
-
+    if(rear == front){
+        cerr << "warning: 队列已空"<<endl;
+        return false;
+    }
+    front = (front + 1) % capacity;
+    return true;
 }
 
 template<class ElemType>
 bool CircularQueue<ElemType>::deQueue(ElemType &element) {
-
+    if(rear == front){
+        cerr << "warning: 队列已空"<<endl;
+        return false;
+    }
+    element = elems[front];
+    front = (front + 1) % capacity;
+    return true;
 }
 
 template<class ElemType>
 bool CircularQueue<ElemType>::getHead(ElemType &element) {
+    if(rear == front){
+        cerr << "warning: 队列为空"<<endl;
+        return false;
+    }
+    element = elems[front];
+    return true;
+}
 
+template<class ElemType>
+CircularQueue<ElemType> &CircularQueue<ElemType>::operator=(const CircularQueue<ElemType> &source) {
+    if(&source != this){
+        front = source.front;
+        rear = source.rear;
+        count = source.count;
+        capacity = source.capacity;
+        for(int temp = front; temp != rear; temp = (temp + 1) % capacity){
+            elems[temp] = source.elems[temp];
+        }
+    }
 }
 
 #endif //DATASTRUCTURESANDALGORITHMS_CIRCULARQUEUE_HPP
