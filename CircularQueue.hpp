@@ -28,7 +28,7 @@ public:
     // 遍历
     void traverse(void(*visit)(const ElemType &)) const;
     // 入队
-    bool enQueue(ElemType &element);
+    bool enQueue(const ElemType &element);
     // 出队
      bool deQueue();
      // 出队并返回
@@ -65,12 +65,13 @@ int CircularQueue<ElemType>::length() const {
 
 template<class ElemType>
 bool CircularQueue<ElemType>::empty() const {
-    return (front + 1) % capacity == rear;
+    return front == rear;
 }
 
 template<class ElemType>
 void CircularQueue<ElemType>::clear() {
-    rear = (front + 1) % capacity;
+    front = rear;
+    count = 0;
 }
 
 template<class ElemType>
@@ -81,13 +82,14 @@ void CircularQueue<ElemType>::traverse(void (*visit)(const ElemType &)) const {
 }
 
 template<class ElemType>
-bool CircularQueue<ElemType>::enQueue(ElemType &element) {
+bool CircularQueue<ElemType>::enQueue(const ElemType &element) {
     if((rear + 1) % capacity == front){
         cerr << "warning: 队列已满"<<endl;
         return false;
     }
     elems[rear] = element;
     rear = (rear + 1) % capacity;
+    count++;
     return true;
 }
 
@@ -98,6 +100,7 @@ bool CircularQueue<ElemType>::deQueue() {
         return false;
     }
     front = (front + 1) % capacity;
+    count--;
     return true;
 }
 
@@ -109,6 +112,7 @@ bool CircularQueue<ElemType>::deQueue(ElemType &element) {
     }
     element = elems[front];
     front = (front + 1) % capacity;
+    count--;
     return true;
 }
 
