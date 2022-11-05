@@ -22,6 +22,7 @@
 #include "RefGenList.hpp"
 #include "Matrix.hpp"
 #include "LinkQueue.hpp"
+#include "Matrix.hpp"
 
 using namespace std;
 
@@ -32,32 +33,12 @@ void visit(const int &element){
 int main() {
 //    (new Calculator())->run();
 //    (new FileEditor())->run();
-    CircularQueue<int> circularQueue;
-    for(int i = 0; i < 100; i++){
-        circularQueue.enQueue(i);
-    }
-    cout << circularQueue.empty() << circularQueue.length()<<endl;
-    circularQueue.traverse(visit);
 
-    for(int i = 0; i < 100; i++){
-        circularQueue.deQueue();
-    }
-    cout << circularQueue.empty() << circularQueue.length()<<endl;
-    circularQueue.enQueue(5);
-    cout << circularQueue.empty() << circularQueue.length()<<endl;
-    circularQueue.clear();
-    cout << circularQueue.empty() << circularQueue.length()<<endl;
-    circularQueue.enQueue(5);
-    cout << circularQueue.empty() << circularQueue.length()<<endl;
-    circularQueue.enQueue(5);
-    circularQueue.enQueue(5);
-    circularQueue.enQueue(5);
-    circularQueue.enQueue(5);
-    circularQueue.traverse(visit);
-    cout << circularQueue.empty() << circularQueue.length()<<endl;
-
-//    LinkQueue<int> linkQueue;
-//    linkQueue.enQueue(1);
+    RefGenList<char> temp;
+    temp.input();
+    temp.output();
+    temp.input();
+    temp.output();
 
     return 0;
 }

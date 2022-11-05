@@ -121,7 +121,8 @@ void RefGenList<ElemType>::clearHelp(RefGenListNode<ElemType> *hd) {
     if (hd->ref == 0) {
         // 释放空间
         RefGenListNode<ElemType> *prePtr, *tmpPtr;
-        for (prePtr = hd, tmpPtr = hd->nextLink; tmpPtr != nullptr; tmpPtr = tmpPtr->nextLink) {
+        for (prePtr = hd, tmpPtr = hd->nextLink; tmpPtr != nullptr;prePtr = tmpPtr, tmpPtr = tmpPtr->nextLink) {
+            delete prePtr;
             if (tmpPtr->tag == LIST) {
                 // 子表节点，释放子表
                 clearHelp(tmpPtr->subLink);
@@ -259,7 +260,8 @@ void RefGenList<ElemType>::input() {
     head = new RefGenListNode<ElemType>(HEAD);
     head->ref = 1;
     // 读入第一个'('
-    cin.get();
+    while(cin.get() != '(')
+        ;
     createHelp(head->nextLink);
 }
 

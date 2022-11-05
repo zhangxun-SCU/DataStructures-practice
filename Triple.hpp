@@ -7,7 +7,6 @@
 
 /**
  * 三元组：使用三元组顺序表表表示稀疏矩阵
- * @tparam ElemType
  */
 template<class ElemType>
 class Triple {
@@ -19,7 +18,7 @@ public:
 
     Triple(int row, int col, ElemType value) : row(row), col(col), value(value) {};
 
-    ~Triple() = default;
+    virtual ~Triple() = default;
 };
 
 #endif //DATASTRUCTURESANDALGORITHMS_TRIPLE_HPP

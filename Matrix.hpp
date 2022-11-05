@@ -18,7 +18,7 @@ private:
     int rows, cols;
 public:
     Matrix(int rows, int cols);
-    Matrix(Matrix<ElemType> &source);
+    Matrix(const Matrix<ElemType> &source);
     ~Matrix();
     // 返回矩阵行数
     int getRows() const;
@@ -41,7 +41,7 @@ Matrix<ElemType>::Matrix(int rows, int cols):rows(rows), cols(cols) {
 }
 
 template<class ElemType>
-Matrix<ElemType>::Matrix(Matrix<ElemType> &source) {
+Matrix<ElemType>::Matrix(const Matrix<ElemType> &source) {
     rows = source.rows;
     cols = source.cols;
     elems = new ElemType[rows * cols];
