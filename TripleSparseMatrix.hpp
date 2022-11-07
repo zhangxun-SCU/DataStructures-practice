@@ -20,7 +20,7 @@ private:
     int maxSize;
     int rows, cols, num;
 public:
-    TripleSparseMatrix(int r=10, int c=10, int num=10);
+    explicit TripleSparseMatrix(int r=10, int c=10, int num=10);
     TripleSparseMatrix(const TripleSparseMatrix<ElemType> &source);
     virtual ~TripleSparseMatrix();
     // 返回行数
@@ -43,7 +43,7 @@ public:
 };
 
 template<class ElemType>
-TripleSparseMatrix<ElemType>::TripleSparseMatrix(int r, int c, int num) {
+TripleSparseMatrix<ElemType>::TripleSparseMatrix(int r, int c, int max) {
 
 }
 
@@ -128,13 +128,40 @@ bool TripleSparseMatrix<ElemType>::getElem(int row, int col, ElemType &element) 
 template<class ElemType>
 void TripleSparseMatrix<ElemType>::simpleTranspose(const TripleSparseMatrix<ElemType> &source,
                                                    TripleSparseMatrix<ElemType> &dest) {
-
+    /*
+     * 先进行行列的转换
+     */
+    dest.rows = source.cols;
+    dest.cols = source.rows;
+    dest.num = source.num;
+    dest.maxSize = source.maxSize;
+    delete[] dest.elems;
+    dest.elems = new Triple<ElemType>[dest.maxSize];
+    if(dest.num){
+        int destPos = 0;  // 纪录插入元素的位置
+        for(int col = 0; col < source.cols; col++){
+            // source的列变为dest的行，dest按行存，那么source按列去找
+            for(int sourcePos = 0; sourcePos < source.num; sourcePos++){
+                // 再次遍历source，找到col列的元素存在dest的col行
+                if(source.elems[sourcePos].col == col){
+                    // 找到source col列的元素，存入dest的col行
+                    dest.elems[destPos].row = source.elems[sourcePos].col;
+                    dest.elems[destPos].col = source.elems[sourcePos].row;
+                    dest.elems[destPos].value = source.elems[sourcePos].value;
+                    // 更新dest存放位置
+                    dest++;
+                }
+            }
+        }
+    }
 }
 
 template<class ElemType>
 void TripleSparseMatrix<ElemType>::fastTranspose(const TripleSparseMatrix<ElemType> &source,
                                                  TripleSparseMatrix<ElemType> &dest) {
-
+    /*
+     *
+     */
 }
 
 template<class ElemType>

@@ -31,14 +31,13 @@ void visit(const int &element){
 }
 
 int main() {
-//    (new Calculator())->run();
+    (new Calculator())->run();
 //    (new FileEditor())->run();
-
-    RefGenList<char> temp;
-    temp.input();
-    temp.output();
-    temp.input();
-    temp.output();
+//    RefGenList<char> temp;
+//    temp.input();
+//    temp.output();
+//    temp.input();
+//    temp.output();
 
     return 0;
 }

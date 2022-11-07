@@ -43,15 +43,27 @@ struct NodeDbl{
 };
 
 /*
- * 二叉树节点TreeNode
+ * 双叉二叉树节点TreeNode
  */
-template<class T>
-struct TreeNode {
-    T data;
-    TreeNode<T> *left;
-    TreeNode<T> *right;
+template<class ElemType>
+struct BinTreeNode {
+    ElemType data;
+    BinTreeNode<ElemType> *leftChild;
+    BinTreeNode<ElemType> *rightChild;
+    explicit BinTreeNode(ElemType data, BinTreeNode<ElemType> *ptrL=nullptr, BinTreeNode<ElemType> *ptrR=nullptr) : data(data), leftChild(ptrL),
+                                                                                    rightChild(ptrR) {};
+};
 
-    explicit TreeNode(T data, TreeNode *ptrL = nullptr, TreeNode *ptrR = nullptr) : data(data), left(ptrL),
-                                                                                    right(ptrR) {};
+/*
+ * 三叉二叉树节点类
+ */
+template<class ElemType>
+struct TriBinTreeNode {
+    ElemType data;
+    TriBinTreeNode<ElemType> *leftChild;
+    TriBinTreeNode<ElemType> *rightChild;
+    TriBinTreeNode<ElemType> *parent;
+    explicit TriBinTreeNode(ElemType data, TriBinTreeNode<ElemType> *ptrL=nullptr, TriBinTreeNode<ElemType> *ptrR=nullptr, TriBinTreeNode<ElemType> *par= nullptr) : data(data), leftChild(ptrL),
+                                                                                                                                             rightChild(ptrR), parent(par) {};
 };
 #endif //DATASTRUCTURESANDALGORITHMS_NODE_HPP
