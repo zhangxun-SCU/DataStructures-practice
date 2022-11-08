@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+#include "LinkStack.hpp"
 #include "LinkQueue.hpp"
 #include "Node.hpp"
 
@@ -53,7 +54,8 @@ private:
     static void
     createBinaryTreeHelp(BinTreeNode<ElemType> *r, ElemType *pre, ElemType *in, int preLeft, int preRight, int inLeft,
                          int inRight);
-
+    // 找到某节点最左边的子孙结点并入栈经过的结点，中序遍历的辅助函数
+    static void goAlongLeft(BinTreeNode<ElemType> *cur, LinkStack<BinTreeNode<ElemType> *> &nodeStack);
 public:
     // 构造、copy构造、析构
     BinaryTree();
@@ -219,7 +221,14 @@ int BinaryTree<ElemType>::nodeCountHelp(const BinTreeNode<ElemType> *r) const {
 template<class ElemType>
 BinTreeNode<ElemType> *
 BinaryTree<ElemType>::parentHelp(BinTreeNode<ElemType> *r, const BinTreeNode<ElemType> *cur) const {
-
+    /*
+     * 递归实现：
+     */
+    if(r ->leftChild == cur || r->rightChild == cur){
+        return r;
+    }
+    parentHelp(r->leftChild, cur);
+    parentHelp(r->rightChild, cur);
 }
 
 template<class ElemType>
@@ -241,6 +250,14 @@ template<class ElemType>
 void BinaryTree<ElemType>::createBinaryTreeHelp(BinTreeNode<ElemType> *r, ElemType *pre, ElemType *in, int preLeft,
                                                 int preRight, int inLeft, int inRight) {
 
+}
+
+template<class ElemType>
+void BinaryTree<ElemType>::goAlongLeft(BinTreeNode<ElemType> *cur, LinkStack<BinTreeNode<ElemType> *> &nodeStack) {
+    while(cur){
+        nodeStack.push(cur);
+        cur = cur->leftChild;
+    }
 }
 
 template<class ElemType>
@@ -316,7 +333,26 @@ void BinaryTree<ElemType>::preOrder(void (*visit)(const ElemType &)) {
 
 template<class ElemType>
 void BinaryTree<ElemType>::preOrderNoRecur(void (*visit)(const ElemType &)) {
-
+    /*
+     * 前序遍历：使用循环/迭代遍历
+     *     重点在于理解前序遍历的顺序：D->L->R，并且对于右子树也是一个树，同样也是有左右子树
+     */
+    // 存储前面结点的栈
+    LinkStack<BinTreeNode<ElemType> *> nodeStack;
+    // 遍历的当前结点
+    BinTreeNode<ElemType> *cur = root;
+    while(true){
+        while(cur){
+            visit(cur->data);
+            nodeStack.push(cur->rightChild);
+            cur = cur->leftChild;
+        }
+        if(nodeStack.empty()){
+            break;
+        }
+        // cur为null,pop出栈内结点
+        nodeStack.pop(cur);
+    }
 }
 
 template<class ElemType>
@@ -326,7 +362,49 @@ void BinaryTree<ElemType>::inOrder(void (*visit)(const ElemType &)) {
 
 template<class ElemType>
 void BinaryTree<ElemType>::inOrderNoRecur(void (*visit)(const ElemType &)) {
+    /*
+     * 中序遍历：循环实现
+     */
+    LinkStack<BinTreeNode<ElemType> *> nodeStack;
+    BinTreeNode<ElemType> *cur = root;
+    /*
+     * 方法一：
+     */
+//    while(true){
+//        // 沿着此路径向左一直到此子树上最左边的叶子节点，并将沿途结点入栈(将结点按批次入栈)
+//        goAlongLeft(cur, nodeStack);
+//        if(nodeStack.empty()){
+//            // 栈为空说明遍历完了，退出
+//            break;
+//        }
+//        nodeStack.pop(cur);
+//        visit(cur->data);
+//        // 转到对应的右子树
+//        cur = cur->rightChild;
+//    }
 
+    /*
+     * 方法二：
+     * 上面是使用goAlongLeft得到的中序遍历代码，但中序遍历的本质就在于要找到遍历的起始点和其直接后继，
+     * 而找到其直接后继主要分为两种情况：一是右子树存在时直接后继一定存在于右子树的最左边的叶子结点，如果不存咋，直接后继就是包含此结点为左子树的最小祖先结点
+     * 所以可以优化代码，更简单的实现中序遍历
+     */
+    while(true){
+        if(cur){
+            // 如果cur不为null,那么一直向左走，并入栈途经的结点
+            nodeStack.push(cur);
+            cur = cur->leftChild;
+        } else if(!nodeStack.empty()){
+            // 如果cur为null且栈不为空说明找到子树的最左子节点了，弹出此节点，遍历此节点
+            nodeStack.pop(cur);
+            visit(cur->data);
+            // 最左的子节点只能是叶子节点或者是中间结点,按照LDR的顺序应该转到右子树（如果有右子树的话）
+            cur = cur->rightChild;
+        } else {
+            // cur为空且栈空说明已经到最后一个结点了，退出遍历
+            break;
+        }
+    }
 }
 
 template<class ElemType>
