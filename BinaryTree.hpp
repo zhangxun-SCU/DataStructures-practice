@@ -239,7 +239,7 @@ void BinaryTree<ElemType>::disPlayBTWithTreeShapeHelp(const BinTreeNode<ElemType
         disPlayBTWithTreeShapeHelp(r->rightChild, level + 1);
         cout << endl;
         for (int tmpPos = 0; tmpPos < level - 1; tmpPos++) {
-            cout << " ";
+            cout << "   ";
         }
         cout << r->data;
         disPlayBTWithTreeShapeHelp(r->leftChild, level + 1);
@@ -249,7 +249,22 @@ void BinaryTree<ElemType>::disPlayBTWithTreeShapeHelp(const BinTreeNode<ElemType
 template<class ElemType>
 void BinaryTree<ElemType>::createBinaryTreeHelp(BinTreeNode<ElemType> *r, ElemType *pre, ElemType *in, int preLeft,
                                                 int preRight, int inLeft, int inRight) {
-
+    if(inLeft > inRight){
+        // 没有结点了，空二叉树(没有子树，中序序列就是判断左右子树)
+        r = nullptr;
+    } else {
+        // 根据前序序列的第一个也就是根节点生成根节点
+        r = new BinTreeNode<ElemType>(pre[preLeft]);
+        // 查找根结点在中序序列中的位置，由此区别出左右子树
+        int mid = inLeft;
+        while(in[mid] != pre[preLeft]){
+            mid++;
+        }
+        // 生成左子树
+        createBinaryTreeHelp(r->leftChild, pre, in, preLeft+1, preLeft + mid - inLeft, inLeft, mid-1);
+        // 生成右子树
+        createBinaryTreeHelp(r->rightChild, pre, in, preLeft + mid - inLeft+1, preRight, mid+1, inRight);
+    }
 }
 
 template<class ElemType>
@@ -516,13 +531,17 @@ BinaryTree<ElemType> &BinaryTree<ElemType>::operator=(const BinaryTree<ElemType>
 
 template<class ElemType>
 void BinaryTree<ElemType>::disPlayBTWithTreeShape(const BinaryTree<ElemType> &bt) {
-    disPlayBTWithTreeShapeHelp(bt.getRoot());
+    disPlayBTWithTreeShapeHelp(bt.getRoot(), 1);
     cout << endl;
 }
 
 template<class ElemType>
 BinaryTree<ElemType> &BinaryTree<ElemType>::createBinaryTree(ElemType *pre, ElemType *in, int n) {
-
+    // 构建的二叉树的根
+    BinTreeNode<ElemType> *r;
+    createBinaryTreeHelp(r, pre, in, 0, n-1, 0, n-1);
+    BinaryTree<ElemType> *newTree = new BinaryTree<ElemType>(r);
+    return newTree;
 }
 
 #endif //DATASTRUCTURESANDALGORITHMS_BINARYTREE_HPP
