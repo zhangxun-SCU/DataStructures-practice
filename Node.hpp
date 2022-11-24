@@ -83,12 +83,12 @@ struct TriBinTreeNode {
 template<class WeightType>
 struct HuffmanTreeNode {
     // 权重数据
-    WeightType weightType;
+    WeightType weight;
     // 父节点，左右孩子结点
     unsigned int parent, leftChild, rightChild;
 
     HuffmanTreeNode() = default;
-    explicit HuffmanTreeNode(const WeightType &w, int p = 0, int l=0, int r=0): weightType(w), parent(p), leftChild(l), rightChild(r) {};
+    explicit HuffmanTreeNode(const WeightType &w, int p = 0, int l=0, int r=0): weight(w), parent(p), leftChild(l), rightChild(r) {};
 };
 
 /*

@@ -23,6 +23,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include "string.h"
 #include <fstream>
 
 #include "SeqList.hpp"
@@ -60,24 +61,10 @@ int main() {
 //    temp.output();
 //    temp.input();
 //    temp.output();
-    BinaryTree<int> temp(1);
-    temp.insertLeftChild(temp.getRoot(), 1);
-    temp.insertRightChild(temp.getRoot(), 2);
-    temp.insertRightChild(temp.leftChild(temp.getRoot()), 3);
-    temp.insertLeftChild(temp.rightChild(temp.getRoot()), 4);
-    temp.disPlayBTWithTreeShape(temp);
-    cout <<temp.empty() << endl;
-    cout << temp.nodeCount() << endl;
-    cout << temp.height() << endl;
-
-    cout << endl;
-    temp.preOrderNoRecur(visit);
-    cout << endl;
-
-    temp.inOrderNoRecur(visit);
-    cout << endl;
-
-    temp.postOrder(visit);
+    CharString s("");
+    CharString s2("");
+    CharString::concat(s, s2);
+    cout << s <<endl;
     return 0;
 }
 

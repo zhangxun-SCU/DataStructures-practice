@@ -4,8 +4,10 @@
 
 #ifndef DATASTRUCTURESANDALGORITHMS_SINGLELINKLIST_HPP
 #define DATASTRUCTURESANDALGORITHMS_SINGLELINKLIST_HPP
+
 #include <iostream>
 #include "Node.hpp"
+
 using namespace std;
 
 template<class ElemType>
@@ -19,34 +21,58 @@ private:
 public:
     // 无参构造
     SingleLinkList();
+
     // 给定数组构造
     SingleLinkList(unsigned int size, ElemType *arr);
+
     // 析构函数
     ~SingleLinkList();
+
     // 拷贝构造
     SingleLinkList(SingleLinkList<ElemType> &source);
+
     // 返回链表长度
     int length() const;
+
     // 判空
     bool empty() const;
+
     // 清空
     void clear();
+
     // 插入节点
     bool insert(int index, ElemType data);
+
     // 直接删除
     bool deleteElem(int index);
+
     // 删除节点
     bool removeElem(int index, ElemType &e);
+
     // 查找
     bool getElem(int index, ElemType &e);
+
+    // 修改/set
+    bool setElem(int index, ElemType &e);
+
+    // 遍历
+    void traverse(void (*visit)(const ElemType &)) const;
+
+    // 重载赋值
+    SingleLinkList<ElemType> &operator=(const SingleLinkList<ElemType> &source);
+
     // 重载下标运算符
     ElemType &operator[](unsigned int index);
+
     // 输出链表数据，用于测试
     void output();
+
+    // 链表基本使用/算法
+    static SingleLinkList<ElemType> &reverse(SingleLinkList<ElemType> &source);
 };
 
 template<class ElemType>
-SingleLinkList<ElemType>::SingleLinkList(): size(0), head(nullptr){
+SingleLinkList<ElemType>::SingleLinkList(): size(0), head(nullptr) {
     head = new Node<ElemType>(0);
 }
 
@@ -78,7 +104,7 @@ template<class ElemType>
 Node<ElemType> *SingleLinkList<ElemType>::getElemPtr(int index) const {
     if (index == -1) {
         return head;
-    } else if(index < -1 || index >= size){
+    } else if (index < -1 || index >= size) {
         exit(-1);
     }
     Node<ElemType> *tmpPtr = head->next;
@@ -168,9 +194,41 @@ bool SingleLinkList<ElemType>::getElem(int index, ElemType &e) {
 }
 
 template<class ElemType>
+bool SingleLinkList<ElemType>::setElem(int index, ElemType &e) {
+    if (index < 0 || index >= size) {
+        return false;
+    }
+    Node<ElemType> *ptr = getElemPtr(index);
+    ptr->data = e;
+    return true;
+}
+
+template<class ElemType>
+void SingleLinkList<ElemType>::traverse(void (*visit)(const ElemType &)) const {
+    Node<ElemType> *tempPtr;
+    for (int i = 0; i < size; i++) {
+        tempPtr = getElemPtr(i);
+        visit(tempPtr->data);
+    }
+}
+
+template<class ElemType>
+SingleLinkList<ElemType> &SingleLinkList<ElemType>::operator=(const SingleLinkList<ElemType> &source) {
+    if (&source != this) {
+        head = source.head;
+        size = source.size;
+        Node<ElemType> *ptr = source.head->next;
+        for (int i = 0; i < size; i++, ptr = ptr->next) {
+            this->insert(ptr->data, size);
+        }
+    }
+    return *this;
+}
+
+template<class ElemType>
 ElemType &SingleLinkList<ElemType>::operator[](unsigned int index) {
-    if(index > size){
-        cout<<"out of range!"<<endl;
+    if (index > size) {
+        cerr << "out of range!" << endl;
         exit(1);
     }
     return getElemPtr(index)->data;
@@ -184,6 +242,21 @@ void SingleLinkList<ElemType>::output() {
         temp = temp->next;
     }
     std::cout << std::endl;
+}
+
+template<class ElemType>
+SingleLinkList<ElemType> &SingleLinkList<ElemType>::reverse(SingleLinkList<ElemType> &source) {
+    // 反转链表
+    Node<ElemType> *head = source.getElemPtr(0);
+    Node<ElemType> *tmp, *newHead = nullptr;
+    while (head) {
+        tmp = head->next;
+        head->next = newHead;
+        newHead = head;
+        head = tmp;
+    }
+    source.head->next = newHead;
+    return source;
 }
 
 #endif //DATASTRUCTURESANDALGORITHMS_SINGLELINKLIST_HPP
