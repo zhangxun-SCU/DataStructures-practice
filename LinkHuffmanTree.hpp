@@ -16,13 +16,11 @@ class LinkHuffmanTree {
 private:
     LinkHuffmanTreeNode<WeightType> *root;
     LinkHuffmanTreeNode<WeightType> **leafNodes;
-    CharString *leafCodes;
+    SingleLinkList<LinkHuffmanTreeNode<WeightType> *> nodeList;
     map<CharType, CharString> char2code;
-    map<CharString, CharType> code2char;
     map<LinkHuffmanTreeNode<WeightType> *, CharType> node2char;
 public:
-    LinkHuffmanTree(CharType *ch, WeightType *w, int n);
-    LinkHuffmanTree(CharType *ch, map<CharType, WeightType> c2w);
+    LinkHuffmanTree(CharType ch[], WeightType w[], int n);
     LinkHuffmanTree(const LinkHuffmanTree<CharType, WeightType> &source);
     virtual ~LinkHuffmanTree();
     // 编码
@@ -35,44 +33,40 @@ public:
 };
 
 template<class CharType, class WeightType>
-LinkHuffmanTree<CharType, WeightType>::LinkHuffmanTree(CharType *ch, WeightType *w, int n) {
+LinkHuffmanTree<CharType, WeightType>::LinkHuffmanTree(CharType ch[], WeightType w[], int n) {
     // 分配空间
-    leafNodes = new CharString[n];
+    leafNodes = new LinkHuffmanTreeNode<WeightType>*[n];
     // 先创建叶子节点，并记录相应的字符
     // 创建一个单链表用于构造huffman树
-    SingleLinkList<LinkHuffmanTreeNode<WeightType> *> nodeList;
     for(int temp = 0; temp < n; temp++){
         leafNodes[temp] = new LinkHuffmanTreeNode<WeightType>(w[temp]);
-        nodeList.insert(temp, nodeList);
+        nodeList.insert(temp, leafNodes[temp]);
         node2char[leafNodes[temp]] = ch[temp];
     }
 
     // 建立Huffman树：进行n-1次操作
+    LinkHuffmanTreeNode<WeightType> maxWeight(0x3f3f3f3f);
     LinkHuffmanTreeNode<WeightType> *r1, *r2, *tempNode;
-    nodeList.getElem(0, r1);
-    nodeList.getElem(1, r2);
-    if(r1->weight > r2->weight){
-        // 调整大小：r1为最小，r2为次小
-        tempNode = r1;
-        r1 = r2;
-        r2 = tempNode;
-    }
     for(int i = 0; i < n-1; i++){
-        // 选取连个最小权重的节点
+        // 先初始化r1,r2为无穷大，再选取连个最小权重的节点
+        r1 = &maxWeight;
+        r2 = &maxWeight;
         for(int index = 0; index < nodeList.length(); index++){
             nodeList.getElem(index, tempNode);
-            if(tempNode->weight < r1->weight && r1->parent != nullptr){
+            if(tempNode->weight < r1->weight && tempNode->parent == nullptr){
                 // 如果此节点无父节点且更小
                 r1 = tempNode;
-            } else if(tempNode->weight < r2->weight && r2->parent != nullptr){
+            } else if(tempNode->weight < r2->weight && tempNode->parent == nullptr){
                 // 无父节点的情况
                 r2 = tempNode;
             }
         }
-        // 创建新的节点
-        LinkHuffmanTreeNode<WeightType> newNode = new LinkHuffmanTreeNode<WeightType>(r1->weight + r2->weight, r1, r2);
+        // 创建新的节点,然后将新结点加入nodelist
+        LinkHuffmanTreeNode<WeightType> *newNode = new LinkHuffmanTreeNode<WeightType>(r1->weight + r2->weight, r1, r2);
         r1->parent = newNode;
         r2->parent = newNode;
+        nodeList.insert(nodeList.length(), newNode);
+
     }
     nodeList.getElem(nodeList.length()-1, root);
 
@@ -91,7 +85,8 @@ LinkHuffmanTree<CharType, WeightType>::LinkHuffmanTree(CharType *ch, WeightType 
             }
         }
         // 记录编码
-        char2code[node2char[leafNodes[i]]] = charCode;
+        CharString code(charCode);
+        char2code[node2char[leafNodes[i]]] = (CharString)charCode;
     }
 }
 
@@ -102,7 +97,8 @@ LinkHuffmanTree<CharType, WeightType>::LinkHuffmanTree(const LinkHuffmanTree<Cha
 
 template<class CharType, class WeightType>
 LinkHuffmanTree<CharType, WeightType>::~LinkHuffmanTree() {
-
+    nodeList.clear();
+    delete[] leafNodes;
 }
 
 template<class CharType, class WeightType>
@@ -123,8 +119,8 @@ SingleLinkList<CharType> LinkHuffmanTree<CharType, WeightType>::decode(const Cha
             curPos = curPos->rightChild;
         }
         // 如果当前为叶子结点，则成功解码一个字符
-        if(curPos->leftChild == nullptr && curPos->rightChild){
-            charList.insert(charList.length(), code2char[curPos]);
+        if(curPos->leftChild == nullptr && curPos->rightChild == nullptr){
+            charList.insert(charList.length(), node2char[curPos]);
             // 解码一个字符后回到根结点
             curPos = root;
         }
