@@ -23,7 +23,6 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "string.h"
 #include <fstream>
 
 #include "SeqList.hpp"
@@ -47,6 +46,7 @@
 #include "Matrix.hpp"
 #include "BinaryTree.hpp"
 #include "LinkHuffmanTree.hpp"
+#include "HuffmanCompress.hpp"
 
 using namespace std;
 
@@ -57,21 +57,36 @@ void visit(const int &element){
 int main() {
 //    (new Calculator())->run();
 //    (new FileEditor())->run();
+    (new HuffmanCompress())->run();
 //    RefGenList<char> temp;
 //    temp.input();
 //    temp.output();
 //    temp.input();
 //    temp.output();
-    char ch[5] = {'a', 'b', 'c', 'd', 'e'};
-    long weight[5] = {10, 2, 3,6, 5};
-    LinkHuffmanTree<char, long>  temp = LinkHuffmanTree<char, long>(ch, weight, 5);
-    cout << temp.encode('a') << endl;
-    cout << temp.encode('b') << endl;
-    cout << temp.encode('c') << endl;
-    cout << temp.encode('d') << endl;
-    cout << temp.encode('e') << endl;
-    temp.decode(CharString("01110111110110"));
-    return 0;
+
+
+//    ifstream in;
+//    in.open("test.txt", ios::in|ios::binary);
+//    in.seekg(0, ios::beg);
+//    char temp;
+//    while(in.read(&temp, 1)){
+//        cout << temp ;
+//    }
+//    cout << endl;
+//    in.close();
+//    in.open("test.txt", ios::in|ios::binary);
+//    in.seekg(0, ios::beg);
+//    cout << in.tellg() << endl;
+//    FILE *infp = fopen("test.txt", "rb");
+//    char ch = fgetc(infp);
+//    cout << int(ch) << endl;
+//    ch = fgetc(infp);
+//    cout << int(ch) << endl;
+//    ch = fgetc(infp);
+//    cout << int(ch) << endl;
+//    ch = fgetc(infp);
+//    cout << int(ch) << endl;
 }
+
 
 

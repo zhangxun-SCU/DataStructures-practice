@@ -15,6 +15,7 @@ template<class CharType, class WeightType>
 class LinkHuffmanTree {
 private:
     LinkHuffmanTreeNode<WeightType> *root;
+    LinkHuffmanTreeNode<WeightType> *curPos;
     LinkHuffmanTreeNode<WeightType> **leafNodes;
     SingleLinkList<LinkHuffmanTreeNode<WeightType> *> nodeList;
     map<CharType, CharString> char2code;
@@ -26,7 +27,7 @@ public:
     // 编码
     CharString encode(CharType ch);
     // 解码
-    SingleLinkList<CharType> decode(const CharString& codeStr);
+    CharString decode(const CharString& codeStr);
     // 重载
     LinkHuffmanTree<CharType, WeightType> &operator = (const LinkHuffmanTree<CharType, WeightType> &source);
 
@@ -69,7 +70,8 @@ LinkHuffmanTree<CharType, WeightType>::LinkHuffmanTree(CharType ch[], WeightType
 
     }
     nodeList.getElem(nodeList.length()-1, root);
-
+    // 初始化当前位置
+    curPos = root;
     // 构建编码
     for(int i = 0; i < n; i++){
         // 有n个叶子结点，循环n次，为每一个叶子结点编码
@@ -107,10 +109,9 @@ CharString LinkHuffmanTree<CharType, WeightType>::encode(CharType ch) {
 }
 
 template<class CharType, class WeightType>
-SingleLinkList<CharType> LinkHuffmanTree<CharType, WeightType>::decode(const CharString& codeStr) {
+CharString LinkHuffmanTree<CharType, WeightType>::decode(const CharString& codeStr) {
     // 编码前的字符序列
     SingleLinkList<CharType> charList;
-    LinkHuffmanTreeNode<WeightType> *curPos = root;
     for(int pos = 0; pos < codeStr.length(); pos++){
         // 每次从根节点向下查找：0为左，1为右
         if(codeStr[pos] == '0'){
@@ -125,7 +126,7 @@ SingleLinkList<CharType> LinkHuffmanTree<CharType, WeightType>::decode(const Cha
             curPos = root;
         }
     }
-    return charList;
+    return CharString(charList);
 }
 
 template<class CharType, class WeightType>
