@@ -14,7 +14,7 @@ using namespace std;
 
 // 字符缓存器
 struct BufferType {
-    char ch;
+    long long int ch;
     unsigned int bits;
 
     BufferType() = default;
@@ -30,13 +30,13 @@ protected:
     ofstream outFile;
     BufferType buffer;
     CharString inFName, outFName;
-    unsigned long fileSize = 0;
+    unsigned long long int fileSize = 0;
 
     bool openFile();
 
     void closeFile();
 
-    void write(unsigned int bit);
+    void write(unsigned long long int bit);
 
     void write();
 
@@ -53,14 +53,14 @@ public:
 };
 
 bool HuffmanCompress::openFile() {
-    cout << "输入源文件名:";
+    cout << "输入源文件名: ";
     cin >> inFName;
     inFile.open(inFName.toCStr(), ios::in | ios::binary);
     if (inFile.fail()) {
         cerr << "源文件打开失败" << endl;
         return false;
     }
-    cout << "输入目标文件名";
+    cout << "输入目标文件名: ";
     cin >> outFName;
     outFile.open(outFName.toCStr(), ios::out | ios::binary);
     if (outFile.fail()) {
@@ -79,12 +79,12 @@ void HuffmanCompress::closeFile() {
     }
 }
 
-void HuffmanCompress::write(unsigned int bit) {
+void HuffmanCompress::write(unsigned long long bit) {
     buffer.bits++;
     buffer.ch = (buffer.ch << 1) | bit;
-    if (buffer.bits == 8) {
-        // 缓存区满八位则输入
-        outFile.write(&buffer.ch, 1);
+    if (buffer.bits == 64) {
+        // 缓存区满32位则输入
+        outFile.write((char *)&buffer.ch, 8);
         // 清空缓存区
         buffer.bits = 0;
         buffer.ch = 0;
@@ -96,7 +96,7 @@ void HuffmanCompress::write() {
     unsigned int len = buffer.bits;
     if (len > 0) {
         // 缓存区不为空，将缓存区充满
-        for (unsigned int i = 0; i < 32 - len; i++) {
+        for (unsigned int i = 0; i < 64 - len; i++) {
             write(0);
         }
     }
@@ -112,6 +112,8 @@ void HuffmanCompress::compress() {
     }
     // 将文件指针定到文件开始
     // 读取文件直到结束并统计字符个数
+    inFile.clear();
+    inFile.seekg(0, ios::beg);
     char tempChar;
     while (inFile.read(&tempChar, 1)) {
         r_w[(unsigned char)tempChar]++;
@@ -135,6 +137,8 @@ void HuffmanCompress::compress() {
         }
     }
     // 向目标文件先写入源文件信息：0. 文件大小 1.有效字符个数，2.各个有效字符. 3.各个有效字符权重
+    outFile.clear();
+    outFile.seekp(0, ios::beg);
     outFile.write((char *)&fileSize, sizeof(fileSize));
     outFile.write((char *) &numOfCh, sizeof(numOfCh));
     outFile.write((char *) ch, numOfCh);
@@ -143,8 +147,8 @@ void HuffmanCompress::compress() {
     huffmanTree = new LinkHuffmanTree<char, unsigned long>(ch, w, numOfCh);
     buffer = *new BufferType(0, 0);
     // 对源文件进行编码并压缩
-    inFile.close();
-    inFile.open(inFName.toCStr(), ios::in|ios::binary);
+    inFile.clear();
+    inFile.seekg(0, ios::beg);
     while (inFile.read(&tempChar, 1)) {
         CharString code = huffmanTree->encode(tempChar);
         for (int i = 0; i < code.length(); i++) {
@@ -158,7 +162,6 @@ void HuffmanCompress::compress() {
     // 检查缓存区是否为空，考虑是否强制写入
     write();
     delete huffmanTree;
-
 }
 
 void HuffmanCompress::deCompress() {
@@ -173,14 +176,14 @@ void HuffmanCompress::deCompress() {
     // 构建huffman树
     huffmanTree = new LinkHuffmanTree<char, unsigned long>(ch, w, numOfCh);
     // 读取并解码
-    unsigned long len = 0; // 记录已解码长度
+    unsigned long long len = 0; // 记录已解码长度
     unsigned int tempChar;
     while (inFile.read((char *)&tempChar, 4)) {
         CharString code("");
         // 读出code
-        unsigned char c = tempChar;
+        unsigned int c = tempChar;
         for (int i = 0; i < 32; i++) {
-            if (c < 128) {
+            if (c < 0x80000000) {
                 CharString::concat(code, CharString("0"));
             } else {
                 CharString::concat(code, CharString("1"));
@@ -189,11 +192,11 @@ void HuffmanCompress::deCompress() {
         }
         CharString str = huffmanTree->decode(code);
         for (int i = 0; i < str.length(); i++) {
+            if(len == fileSize){
+                break;
+            }
             outFile.write(&str[i], 1);
             len++;
-        }
-        if(len == fileSize){
-            break;
         }
     }
     delete huffmanTree;
@@ -206,29 +209,38 @@ void HuffmanCompress::run() {
         cout << "2.解压缩" << endl;
         cout << "3.退出" << endl;
         int choice;
+        cout << "请选择: ";
         cin >> choice;
+        clock_t start_time;
+        clock_t end_time;
         switch (choice) {
             case 1:
                 // 压缩
                 if (!openFile()) break;
-                cerr << "正在处理，请稍候..." << endl;
+                clog << "正在处理，请稍候..." << endl;
+                start_time = clock();
                 compress();
-                cerr << "压缩完成" << endl;
+                end_time=clock();
+                clog << "压缩完成" << endl;
+                clog << "压缩消耗时间 " <<(double)(end_time - start_time) / CLOCKS_PER_SEC << "s" << endl;
                 closeFile();
                 break;
             case 2:
                 // 解压缩
                 if (!openFile()) break;
-                cerr << "正在处理，请稍候..." << endl;
+                clog << "正在处理，请稍候..." << endl;
+                start_time = clock();
                 deCompress();
-                cerr << "解压完成" << endl;
+                end_time = clock();
+                clog << "解压完成" << endl;
+                clog << "解压消耗时间 " <<(double)(end_time - start_time) / CLOCKS_PER_SEC << "s" << endl;
                 closeFile();
                 break;
             case 3:
-                cout << "退出程序" << endl;
+                clog << "退出程序" << endl;
                 loop_flag = false;
             default:
-                cout << "输入非法，请重新输入" << endl;
+                cerr << "输入非法，请重新输入" << endl;
         }
     }
 }
