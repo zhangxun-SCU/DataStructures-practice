@@ -15,7 +15,7 @@ using namespace std;
  */
 template<class ElemType>
 class RefGenList {
-private:
+protected:
     // 引用树法广义表头指针
     RefGenListNode<ElemType> *head;
 

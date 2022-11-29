@@ -9,7 +9,7 @@
 using namespace std;
 template<class ElemType>
 class CircularQueue {
-private:
+protected:
     ElemType *elems;
     int front;
     int rear;

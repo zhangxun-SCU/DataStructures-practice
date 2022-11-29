@@ -12,7 +12,7 @@
 using namespace std;
 
 class CharString {
-private:
+protected:
     // 串值
     char *strVal;
     // 串长

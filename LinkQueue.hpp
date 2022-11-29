@@ -13,7 +13,7 @@ using namespace std;
 
 template<class ElemType>
 class LinkQueue {
-private:
+protected:
     Node<ElemType> *front, *rear;
     int count;
 public:

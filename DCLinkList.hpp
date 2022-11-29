@@ -9,7 +9,7 @@
 
 template<class ElemType>
 class DCLinkList {
-private:
+protected:
 //    头指针与尾指针：引入头节点
     NodeDbl<ElemType> *head;
 //    链表大小

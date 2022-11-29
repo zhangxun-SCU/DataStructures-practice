@@ -10,7 +10,7 @@
  */
 template<class ElemType>
 class Triple {
-private:
+protected:
     int row, col;
     ElemType value;
 public:

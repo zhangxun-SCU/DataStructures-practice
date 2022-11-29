@@ -12,7 +12,7 @@ using namespace std;
 
 template<class ElemType>
 class SingleLinkList {
-private:
+protected:
     Node<ElemType> *head;
 
     int size;

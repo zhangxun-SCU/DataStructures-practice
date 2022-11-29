@@ -16,7 +16,7 @@ using namespace std;
  */
 template<class ElemType>
 class LinkStack {
-private:
+protected:
     // 栈顶指针
     Node<ElemType> *topPtr;
     int count;

@@ -13,7 +13,7 @@ using namespace std;
  */
 template<class ElemType>
 class Matrix {
-private:
+protected:
     ElemType *elems;
     int rows, cols;
 public:

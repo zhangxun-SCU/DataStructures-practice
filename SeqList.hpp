@@ -11,7 +11,7 @@ using namespace std;
 
 template<class T>
 class SeqList {
-private:
+protected:
 //    数组容量
     unsigned int size;
 //    数组长度

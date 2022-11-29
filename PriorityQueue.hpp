@@ -14,7 +14,7 @@ using namespace std;
  */
 template<class ElemType>
 class PriorityQueue {
-private:
+protected:
     BinaryHeap<ElemType> elems;
     int count;
     int maxSize;

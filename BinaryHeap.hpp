@@ -19,7 +19,7 @@
 using namespace std;
 template<class ElemType>
 class BinaryHeap {
-private:
+protected:
     ElemType *array;
     int count;
     int maxSize;

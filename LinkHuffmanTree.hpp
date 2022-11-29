@@ -13,7 +13,7 @@
 
 template<class CharType, class WeightType>
 class LinkHuffmanTree {
-private:
+protected:
     LinkHuffmanTreeNode<WeightType> *root;
     LinkHuffmanTreeNode<WeightType> *curPos;
     LinkHuffmanTreeNode<WeightType> **leafNodes;

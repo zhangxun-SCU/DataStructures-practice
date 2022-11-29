@@ -11,7 +11,7 @@ using namespace std;
 
 template<class ElemType>
 class SeqStack {
-private:
+protected:
     ElemType *elems;
     int maxSize;
     int count;

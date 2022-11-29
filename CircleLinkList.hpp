@@ -11,7 +11,7 @@ using namespace std;
 
 template<class ElemType>
 class CircleLinkList {
-private:
+protected:
     Node<ElemType> *head;
     Node<ElemType> *last;
     int size;

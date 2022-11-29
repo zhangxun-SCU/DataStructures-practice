@@ -14,7 +14,7 @@ using namespace std;
 
 // 字符缓存器
 struct BufferType {
-    long long int ch;
+    char ch;
     unsigned int bits;
 
     BufferType() = default;
@@ -36,7 +36,7 @@ protected:
 
     void closeFile();
 
-    void write(unsigned long long int bit);
+    void write(unsigned short bit);
 
     void write();
 
@@ -79,12 +79,12 @@ void HuffmanCompress::closeFile() {
     }
 }
 
-void HuffmanCompress::write(unsigned long long bit) {
+void HuffmanCompress::write(unsigned short bit) {
     buffer.bits++;
     buffer.ch = (buffer.ch << 1) | bit;
-    if (buffer.bits == 64) {
+    if (buffer.bits == 8) {
         // 缓存区满32位则输入
-        outFile.write((char *)&buffer.ch, 8);
+        outFile.write((char *)&buffer.ch, 1);
         // 清空缓存区
         buffer.bits = 0;
         buffer.ch = 0;
@@ -96,7 +96,7 @@ void HuffmanCompress::write() {
     unsigned int len = buffer.bits;
     if (len > 0) {
         // 缓存区不为空，将缓存区充满
-        for (unsigned int i = 0; i < 64 - len; i++) {
+        for (unsigned int i = 0; i < 8 - len; i++) {
             write(0);
         }
     }
@@ -177,16 +177,16 @@ void HuffmanCompress::deCompress() {
     huffmanTree = new LinkHuffmanTree<char, unsigned long>(ch, w, numOfCh);
     // 读取并解码
     unsigned long long len = 0; // 记录已解码长度
-    unsigned int tempChar;
-    while (inFile.read((char *)&tempChar, 4)) {
+    unsigned char tempChar;
+    while (inFile.read((char *)&tempChar, 1)) {
         CharString code("");
         // 读出code
-        unsigned int c = tempChar;
-        for (int i = 0; i < 32; i++) {
-            if (c < 0x80000000) {
-                CharString::concat(code, CharString("0"));
-            } else {
+        unsigned char c = tempChar;
+        for (int i = 0; i < 8; i++) {
+            if (c & 0x80) {
                 CharString::concat(code, CharString("1"));
+            } else {
+                CharString::concat(code, CharString("0"));
             }
             c = c << 1;
         }
@@ -239,8 +239,10 @@ void HuffmanCompress::run() {
             case 3:
                 clog << "退出程序" << endl;
                 loop_flag = false;
+                break;
             default:
                 cerr << "输入非法，请重新输入" << endl;
+                break;
         }
     }
 }

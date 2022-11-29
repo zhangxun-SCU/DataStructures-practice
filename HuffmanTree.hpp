@@ -12,7 +12,7 @@
 using namespace std;
 template<class CharType, class WeightType>
 class HuffmanTree {
-private:
+protected:
     // 存储结点信息
     HuffmanTreeNode<WeightType> *nodes;
     // 叶子节点字符

@@ -15,7 +15,7 @@ using namespace std;
  */
 template<class ElemType>
 class TripleSparseMatrix {
-private:
+protected:
     Triple<ElemType> *elems;
     int maxSize;
     int rows, cols, num;

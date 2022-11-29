@@ -19,7 +19,7 @@ using namespace std;
  */
 template<class ElemType>
 class BinaryTree {
-private:
+protected:
     unsigned int size;
     BinTreeNode<ElemType> *root;
 
