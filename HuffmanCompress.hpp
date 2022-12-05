@@ -40,6 +40,7 @@ protected:
 
     void write();
 
+    static void turn2code(unsigned char tempChar, CharString &code);
 public:
     HuffmanCompress() = default;
 
@@ -102,6 +103,17 @@ void HuffmanCompress::write() {
     }
 }
 
+void HuffmanCompress::turn2code(unsigned char tempChar, CharString &code) {
+    for (int i = 0; i < 8; i++) {
+        if (tempChar & 0x80) {
+            CharString::concat(code, CharString("1"));
+        } else {
+            CharString::concat(code, CharString("0"));
+        }
+        tempChar = tempChar << 1;
+    }
+}
+
 void HuffmanCompress::compress() {
     // 初步统计字符总类和个数
     char r_ch[256];
@@ -145,7 +157,7 @@ void HuffmanCompress::compress() {
     outFile.write((char *) w, 4 * numOfCh);
     // 构造huffman树和缓存区
     huffmanTree = new LinkHuffmanTree<char, unsigned long>(ch, w, numOfCh);
-    buffer = *new BufferType(0, 0);
+    buffer = BufferType(0, 0);
     // 对源文件进行编码并压缩
     inFile.clear();
     inFile.seekg(0, ios::beg);
@@ -181,15 +193,7 @@ void HuffmanCompress::deCompress() {
     while (inFile.read((char *)&tempChar, 1)) {
         CharString code("");
         // 读出code
-        unsigned char c = tempChar;
-        for (int i = 0; i < 8; i++) {
-            if (c & 0x80) {
-                CharString::concat(code, CharString("1"));
-            } else {
-                CharString::concat(code, CharString("0"));
-            }
-            c = c << 1;
-        }
+        turn2code(tempChar, code);
         CharString str = huffmanTree->decode(code);
         for (int i = 0; i < str.length(); i++) {
             if(len == fileSize){

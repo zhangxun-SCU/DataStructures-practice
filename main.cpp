@@ -59,13 +59,7 @@ int main() {
 //    (new Calculator())->run();
 //    (new FileEditor())->run();
     (new HuffmanCompress())->run();
-//    RefGenList<char> temp;
-//    temp.input();
-//    temp.output();
-//    temp.input();
-//    temp.output();
-//    unsigned int a = 0;
-//    cout << sizeof(a) << endl;
+
 
 }
 
