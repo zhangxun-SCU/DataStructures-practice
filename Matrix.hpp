@@ -29,6 +29,10 @@ public:
     ElemType &operator()(int i, int j);
     // 重载复制
     Matrix<ElemType> &operator=(const Matrix<ElemType> &source);
+
+    // 其他算法
+    /*找鞍点*/
+
 };
 
 template<class ElemType>

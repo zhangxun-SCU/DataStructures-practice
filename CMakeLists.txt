@@ -31,4 +31,4 @@ add_executable(
         RefGenListNode.hpp
         RefGenList.hpp
         HuffmanTree.hpp
-        LinkHuffmanTree.hpp HuffmanCompress.hpp AdjMatrixDirGraph.hpp)
+        LinkHuffmanTree.hpp HuffmanCompress.hpp AdjMatrixDirGraph.hpp My_Class/Ackerman.cpp My_Class/Ackerman.h)

@@ -68,7 +68,10 @@ public:
     void output();
 
     // 链表基本使用/算法
+    /*翻转链表*/
     static SingleLinkList<ElemType> &reverse(SingleLinkList<ElemType> &source);
+    /*顺序合并链表*/
+    static void merge(SingleLinkList<ElemType> &la, SingleLinkList<ElemType> &lb, SingleLinkList<ElemType> &lc);
 };
 
 template<class ElemType>
@@ -257,6 +260,34 @@ SingleLinkList<ElemType> &SingleLinkList<ElemType>::reverse(SingleLinkList<ElemT
     }
     source.head->next = newHead;
     return source;
+}
+
+template <class ElemType >
+void SingleLinkList<ElemType> :: merge(SingleLinkList<ElemType> &la, SingleLinkList<ElemType> &lb, SingleLinkList< ElemType > &lc){
+    int aLen = la.length();
+    int bLen = lb.length();
+    ElemType a, b;
+    for(int aPos = 0, bPos = 0; aPos < aLen || bPos < bLen;){
+        if(aPos < aLen && bPos < bLen){
+            la.getElem(aPos, a);
+            lb.getElem(bPos, b);
+            if(a < b){
+                lc.insert(0, a);
+                aPos++;
+            } else {
+                lc.insert(0, b);
+                bPos++;
+            }
+        } else if(aPos < aLen && bPos == bLen){
+            la.getElem(aPos, a);
+            lc.insert(0, a);
+            aPos++;
+        } else if(aPos == aLen && bPos < bLen){
+            lb.getElem(bPos, b);
+            lc.insert(0, b);
+            bPos++;
+        }
+    }
 }
 
 #endif //DATASTRUCTURESANDALGORITHMS_SINGLELINKLIST_HPP
