@@ -5,8 +5,8 @@
 #ifndef DATASTRUCTURESANDALGORITHMS_CHARSTRING_HPP
 #define DATASTRUCTURESANDALGORITHMS_CHARSTRING_HPP
 
-#include "iostream"
-#include "cassert"
+#include <iostream>
+#include <cassert>
 #include "SingleLinkList.hpp"
 
 using namespace std;
@@ -158,8 +158,12 @@ ostream &operator<<(ostream &output, const CharString &out) {
 }
 
 istream &operator>>(istream &input, CharString &in) {
-    input >> in.strVal;
-//    in.size = CharString::strlen(in.strVal);
+    delete[] in.strVal;
+    char temp[1000];
+    input >> temp;
+    in.size = CharString::strlen(temp);
+    in.strVal = new char[in.size + 1];
+    CharString::strcpy(in.strVal, temp);
     return input;
 }
 

@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include "LinkQueue.hpp"
+
 using namespace std;
 
 /*
@@ -54,10 +56,10 @@ public:
     int getEdgeNum() const;
 
     // 返回v1的第一个邻接点
-    bool firstAdjVex(int v1, int v) const;
+    bool firstAdjVex(int v1, int &v) const;
 
     // 返回下一个顶点（相对于v1）
-    bool nextAdjVex(int v1, int v2, int v) const;
+    bool nextAdjVex(int v1, int v2, int &v) const;
 
     // 插入顶点为v1v2的边
     bool insertEdge(int v1, int v2, int w = 1);
@@ -87,6 +89,41 @@ public:
 };
 
 template<class ElemType, class WeightType>
+void AdjMatrixDirGraph<ElemType, WeightType>::DFS(int v, void (*visit)(const ElemType &)) const {
+    visit(elems[v]);
+    setTag(v, true);
+    int u;
+    bool traverse_flag;
+    for(bool flag = firstAdjVex(v, u); flag; flag = nextAdjVex(v, u, u)){
+        getTag(u, traverse_flag);
+        if(!traverse_flag){
+            DFS(u, visit);
+        }
+    }
+}
+
+template<class ElemType, class WeightType>
+void AdjMatrixDirGraph<ElemType, WeightType>::BFS(int v, void (*visit)(const ElemType &)) const {
+    visit(elems[v]);
+    setTag(v, true);
+    LinkQueue<ElemType> queue;
+    queue.enQueue(v);
+    bool traverse_flag;
+    while(!queue.empty()){
+        int u;
+        queue.deQueue(v);
+        for(bool get_flag = firstAdjVex(v, u); get_flag ; get_flag = nextAdjVex(v, u, u)){
+            getTag(u, traverse_flag);
+            if(!traverse_flag){
+                visit(elems[u]);
+                setTag(u, true);
+                queue.enQueue(u);
+            }
+        }
+    }
+}
+
+template<class ElemType, class WeightType>
 AdjMatrixDirGraph<ElemType, WeightType>::AdjMatrixDirGraph(ElemType *data, int vertexNum) {
     vexNum = vertexNum;
     edgeNum = 0;
@@ -112,9 +149,9 @@ AdjMatrixDirGraph<ElemType, WeightType>::AdjMatrixDirGraph(int vertexNum) {
     vexNum = vertexNum;
     edgeNum = 0;
     elems = new ElemType[vertexNum];
-    for (int i = 0; i < vertexNum; i++) {
-        elems[i] = 0;
-    }
+//    for (int i = 0; i < vertexNum; i++) {
+//        elems[i] = 0;
+//    }
     matrix = new WeightType *[vertexNum];
     for (int i = 0; i < vertexNum; i++) {
         matrix[i] = new WeightType[vertexNum];
@@ -130,7 +167,23 @@ AdjMatrixDirGraph<ElemType, WeightType>::AdjMatrixDirGraph(int vertexNum) {
 
 template<class ElemType, class WeightType>
 AdjMatrixDirGraph<ElemType, WeightType>::AdjMatrixDirGraph(const AdjMatrixDirGraph<ElemType, WeightType> &source) {
-
+    vexNum = source.vexNum;
+    edgeNum = source.edgeNum;
+    elems = new ElemType[vexNum];
+    for (int i = 0; i < vexNum; i++) {
+        elems[i] = source.elems[i];
+    }
+    matrix = new WeightType *[vexNum];
+    for (int i = 0; i < vexNum; i++) {
+        matrix[i] = new WeightType[vexNum];
+        for (int j = 0; j < vexNum; j++) {
+            matrix[i][j] = source.matrix[i][j];
+        }
+    }
+    tag = new bool[vexNum];
+    for (int i = 0; i < vexNum; i++) {
+        tag[i] = source.tag[i];
+    }
 }
 
 template<class ElemType, class WeightType>
@@ -174,7 +227,7 @@ int AdjMatrixDirGraph<ElemType, WeightType>::getEdgeNum() const {
 }
 
 template<class ElemType, class WeightType>
-bool AdjMatrixDirGraph<ElemType, WeightType>::firstAdjVex(int v1, int v) const {
+bool AdjMatrixDirGraph<ElemType, WeightType>::firstAdjVex(int v1, int &v) const {
     if (v1 < 0 || v1 >= vexNum) {
         cerr << "未找到此顶点" << endl;
         return false;
@@ -193,7 +246,7 @@ bool AdjMatrixDirGraph<ElemType, WeightType>::firstAdjVex(int v1, int v) const {
 }
 
 template<class ElemType, class WeightType>
-bool AdjMatrixDirGraph<ElemType, WeightType>::nextAdjVex(int v1, int v2, int v) const {
+bool AdjMatrixDirGraph<ElemType, WeightType>::nextAdjVex(int v1, int v2, int &v) const {
     if (v1 < 0 || v1 >= vexNum || v2 < 0 || v2 >= vexNum) {
         cerr << "未找到此顶点" << endl;
         return false;
@@ -275,6 +328,64 @@ bool AdjMatrixDirGraph<ElemType, WeightType>::setTag(int v, bool val) const {
     }
     tag[v] = val;
     return true;
+}
+
+template<class ElemType, class WeightType>
+void AdjMatrixDirGraph<ElemType, WeightType>::DFSTraverse(void (*visit)(const ElemType &)) const {
+    // 深度优先遍历
+    // reset the flag
+    for(int i = 0; i < vexNum; i++){
+        setTag(i, false);
+    }
+    // 执行遍历
+    bool traverse_flag;
+    for(int v = 0; v < vexNum; v++){
+        getTag(v, traverse_flag);
+        if(!traverse_flag) {
+            DFS(v, visit);
+        }
+    }
+}
+
+template<class ElemType, class WeightType>
+void AdjMatrixDirGraph<ElemType, WeightType>::BFSTraverse(void (*visit)(const ElemType &)) const {
+    // reset the flag
+    for(int i = 0; i < vexNum; i++){
+        setTag(i, false);
+    }
+    // 广度优先遍历
+    bool traverse_flag;
+    for(int v = 0; v < vexNum; v++){
+        // 外部仍嵌套一层循环，防止图是非连通图
+        getTag(v, traverse_flag);
+        if(!traverse_flag){
+            BFS(v, visit);
+        }
+    }
+}
+
+template<class ElemType, class WeightType>
+AdjMatrixDirGraph<ElemType, WeightType> &
+AdjMatrixDirGraph<ElemType, WeightType>::operator=(const AdjMatrixDirGraph<ElemType, WeightType> &source) {
+    if(&source != this){
+        vexNum = source.vexNum;
+        edgeNum = source.edgeNum;
+        elems = new ElemType[vexNum];
+        for (int i = 0; i < vexNum; i++) {
+            elems[i] = source.elems[i];
+        }
+        matrix = new WeightType *[vexNum];
+        for (int i = 0; i < vexNum; i++) {
+            matrix[i] = new WeightType[vexNum];
+            for (int j = 0; j < vexNum; j++) {
+                matrix[i][j] = source.matrix[i][j];
+            }
+        }
+        tag = new bool[vexNum];
+        for (int i = 0; i < vexNum; i++) {
+            tag[i] = source.tag[i];
+        }
+    }
 }
 
 #endif //DATASTRUCTURESANDALGORITHMS_ADJMATRIXDIRGRAPH_HPP
