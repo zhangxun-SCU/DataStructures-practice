@@ -30,5 +30,4 @@ add_executable(
         LinkQueue.hpp
         RefGenListNode.hpp
         RefGenList.hpp
-        HuffmanTree.hpp
         LinkHuffmanTree.hpp HuffmanCompress.hpp AdjMatrixDirGraph.hpp My_Class/Ackerman.cpp My_Class/Ackerman.h CourseScheduling.hpp)

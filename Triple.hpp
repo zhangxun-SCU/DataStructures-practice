@@ -18,7 +18,16 @@ public:
 
     Triple(int row, int col, ElemType value) : row(row), col(col), value(value) {};
 
+    Triple(const Triple<ElemType> &source);
+
     virtual ~Triple() = default;
 };
+
+template<class ElemType>
+Triple<ElemType>::Triple(const Triple<ElemType> &source) {
+    row = source.row;
+    col = source.col;
+    value = source.value;
+}
 
 #endif //DATASTRUCTURESANDALGORITHMS_TRIPLE_HPP
